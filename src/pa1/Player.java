@@ -3,9 +3,12 @@ package pa1;
 import pa1.containment.Containment;
 import pa1.directors.Director;
 import pa1.directors.HealthMinister;
+import pa1.exceptions.AddedContTechException;
 import pa1.exceptions.NegativeValException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ public class Player {
     // Assets
     private final List<Director> directors = new ArrayList<>();
     private final List<City> cities = new ArrayList<>();
-    private final List<Containment> containTechniques = new ArrayList<>();
+    private final HashMap<String, Containment> containTechniques = new HashMap<String, Containment>();
 
     // Attributes
     private final String name;
@@ -100,6 +103,18 @@ public class Player {
         return getDirectors().stream().anyMatch(Director::isReady);
     }
 
+    /**
+     * Adds a containment technique.
+     *
+     * @param cont
+     */
+    public void addContainmentTech(Containment cont) throws AddedContTechException {
+        // TODO
+        if (!containTechniques.containsKey(cont.getName()))
+            containTechniques.put(cont.getName(), cont);
+        else
+            throw new AddedContTechException(cont.getName());
+    }
 
     // Trivial getters
 
@@ -112,7 +127,7 @@ public class Player {
         return cities;
     }
 
-    public List<Containment> getContainTechniques() {
+    public HashMap<String, Containment> getContainTechniques() {
         return containTechniques;
     }
 

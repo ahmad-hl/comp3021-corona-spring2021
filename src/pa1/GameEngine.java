@@ -1,6 +1,7 @@
 package pa1;
 
 import pa1.directors.Director;
+import pa1.exceptions.AddedContTechException;
 import pa1.exceptions.NegativeValException;
 import pa1.exceptions.NoEnoughBudgetException;
 import java.io.IOException;
@@ -63,8 +64,7 @@ public class GameEngine {
 
                 if (director == null) break;
 
-                System.out.print("\n\n");
-                City city = selectCity(player);
+                City city = player.getCities().get(0);
 
                 if (city == null) break;
 
@@ -97,24 +97,14 @@ public class GameEngine {
         return m;
     }
 
-    private City selectCity(Player player) {
-        System.out.println("CITY SELECTION");
-        for (int i = 0; i < player.getCities().size(); i++)
-            System.out.printf("\t[%d]\t%s\n", i + 1, player.getCities().get(i));
-
-        int selection = getSelection(1, player.getCities().size(), "city (0 to skip turn)");
-        if (selection == 0) return null;
-        return player.getCities().get(selection - 1);
-    }
-
     private void selectAndPerformAction(Player player, Director director, City city) {
 
 
         System.out.println("SELECT Director ACTION");
         System.out.println("\t[ 1]\tBuild Hospital");
-        System.out.println("\t[ 2]\tBuild Medical Lab");
-        System.out.println("\t[ 3]\tBuild Medicine Factory");
-        System.out.println("\t[ 4]\tRecruit Doctors");
+        System.out.println("\t[ 2]\tBuild Mask Factory");
+        System.out.println("\t[ 3]\tDevelop Vaccine");
+        System.out.println("\t[ 4]\tBan Travel");
 
         while (true) {
             try {
@@ -125,12 +115,14 @@ public class GameEngine {
                 System.out.println(e.getMessage());
             } catch (NegativeValException e) {
                 e.printStackTrace();
+            } catch (AddedContTechException e) {
+                e.printStackTrace();
             }
         }
     }
 
 
-    private void processPlayerCommand(int command, Player player, Director director, City city) throws NoEnoughBudgetException, NegativeValException {
+    private void processPlayerCommand(int command, Player player, Director director, City city) throws NoEnoughBudgetException, NegativeValException, AddedContTechException {
 
         switch (command) {
             case 1:
@@ -138,14 +130,14 @@ public class GameEngine {
                 break;
 
             case 2:
-                director.buildMedicalLab(player, city);
+                director.buildMasksFactory(player, city);
                 break;
 
             case 3:
-                director.buildMedicineFactory(player, city);
+                director.developVaccine(player, city);
                 break;
             case 4:
-                director.recruitDoctors(player, city, 10);
+                director.banTravel(player, city);
                 break;
             default:
                 break;

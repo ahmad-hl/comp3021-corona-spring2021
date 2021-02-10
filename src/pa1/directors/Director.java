@@ -3,6 +3,7 @@ package pa1.directors;
 
 import pa1.City;
 import pa1.Player;
+import pa1.exceptions.AddedContTechException;
 import pa1.exceptions.NegativeValException;
 import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.Constants;
@@ -16,28 +17,27 @@ import pa1.util.Cost;
 public abstract class Director{
 
     // Attributes
-    // Attributes
-    protected final int leasdership, experience, science;
+    protected final int leadership, experience, science;
     private boolean isReady = false;
 
     /**
      * Initializes the attributes of a minister
      */
     public Director() {
-        leasdership = 1;
+        leadership = 1;
         experience = 1;
         science = 1;
     }
 
     /**
      * Initializes the attributes of a minister
-     * @param leasdership
+     * @param leadership
      * @param experience
      * @param science
      */
-    public Director(int leasdership, int experience, int science) {
+    public Director(int leadership, int experience, int science) {
 
-        this.leasdership = leasdership;
+        this.leadership = leadership;
         this.experience = experience;
         this.science = science;
     }
@@ -83,7 +83,7 @@ public abstract class Director{
      * @param city
      * @throws NoEnoughBudgetException
      */
-    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
+    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, NegativeValException, AddedContTechException {
         // TODO
 
         int hospitalCost = Cost.getHospitalCost();
@@ -97,38 +97,13 @@ public abstract class Director{
         city.addHospital();
     }
 
-    /**
-     * Build a medical lab in the city
-     * 1. Get the cost of building a  medical lab , with applied minister discount
-     * 2. Check whether player has enough budget
-     * 3. If not, throw an exception
-     * 4. Subtract the cost from the player's budget
-     * 5. Add number of  medical labs in the city by one
-     * <p>
-     * HINT:
-     * @param player
-     * @param city
-     * @throws NoEnoughBudgetException
-     */
-    public void buildMedicalLab(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
-        // TODO
-        int medLabCost = Cost.getMedicalLabCost();
-
-        boolean cantBuildLab = medLabCost > player.getBudget();
-
-        if (cantBuildLab) throw new NoEnoughBudgetException(player, medLabCost);
-
-        player.decreaseBudget(medLabCost);
-        player.addPoint(Constants.BUILD_LAB_POINTS);
-        city.addMedicalLab();
-    }
 
     /**
-     * Build a medicine factory in the city
-     * 1. Get the cost of building a medicine factory, with applied minister discount
+     * Build a mask factory in the city
+     * 1. Get the cost of building a mask factory, with applied minister discount
      * 2. Check whether player has enough gold and production points
      * 3. If not, throw an exception
-     * 4. Subtract the cost from the player's gold and production point
+     * 4. Subtract the cost from the player's budget
      * 5. Add number of university in the city by one
      * <p>
      * HINT:
@@ -140,47 +115,33 @@ public abstract class Director{
      * @param city
      * @throws NoEnoughBudgetException
      */
-    public void buildMedicineFactory(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
+    public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException, NegativeValException, AddedContTechException {
         // TODO
 
-        int medFactoryCost = Cost.getMedicalLabCost();
+        int maskFactoryCost = Cost.getMasksFactoryCost();
 
-        boolean cantBuildMedFactory = medFactoryCost > player.getBudget();
+        boolean cantBuildMedFactory = maskFactoryCost > player.getBudget();
 
-        if (cantBuildMedFactory) throw new NoEnoughBudgetException(player, medFactoryCost);
+        if (cantBuildMedFactory) throw new NoEnoughBudgetException(player, maskFactoryCost);
 
-        player.decreaseBudget(medFactoryCost);
-        player.addPoint(Constants.BUILD_MEDFACTORY_POINTS);
-        city.addMedicineFactory();
+        player.decreaseBudget(maskFactoryCost);
+        player.addPoint(Constants.BUILD_MASK_FACTORY_POINTS);
+        city.addMaskFactory();
     }
 
     /**
-     * Recruit doctors to be stationed in a city
-     * Recruit 50 doctors for 500 golds
-     * If the player does not have enough gold, throw an exception
+     * Develop a Vaccine
+     * 1. update city's travelBanned to true
      * <p>
-     * Overridden in WarGeneral class
+     * HINT:
      *
      * @param player
      * @param city
-     * @throws NoEnoughBudgetException,NegativeValException
      */
-    public void recruitDoctors(Player player, City city, int numDoctors) throws NoEnoughBudgetException, NegativeValException {
+    public void developVaccine(Player player, City city) throws NegativeValException, AddedContTechException {
         // TODO
-        int recruitmentCost = Cost.getDoctorsCost(numDoctors);
-        if (player.getBudget() < recruitmentCost) throw new NoEnoughBudgetException(player, recruitmentCost);
-        player.decreaseBudget(recruitmentCost);
-        player.addPoint(Constants.RECRUITE_DOC_POINTS);
-        city.addDoctors(numDoctors);
-    }
-
-    public void DevelopVaccine(Player player, City source, City dest, int cases) throws NegativeValException {
-        // TODO
-        if (!dest.isTravelBanned()){
-            dest.increaseInfectedCases(cases);
-            source.decreaseInfectedCases(cases);
-            player.addPoint( Constants.TRANSFER_ACASE_POINTS * cases);
-        }
+        city.setVaccineAvailable(true);
+        player.addPoint( Constants.DEVELOP_VACCINE_POINTS);
     }
 
     /**
@@ -192,7 +153,7 @@ public abstract class Director{
      * @param player
      * @param city
      */
-    public void banTravel(Player player, City city) throws NegativeValException {
+    public void banTravel(Player player, City city) throws NegativeValException, AddedContTechException {
         // TODO
         city.setTravelBanned(true);
         player.addPoint( Constants.BAN_TRAVEL_POINTS);

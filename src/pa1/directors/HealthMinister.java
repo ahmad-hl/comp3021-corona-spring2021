@@ -2,6 +2,8 @@ package pa1.directors;
 
 
 import pa1.City;
+import pa1.containment.Treatment;
+import pa1.exceptions.AddedContTechException;
 import pa1.util.Constants;
 import pa1.util.Cost;
 import pa1.Player;
@@ -30,7 +32,7 @@ public class HealthMinister extends Director{
 
     @Override
     public int getPromotion(){
-        int promotion = leasdership + experience;
+        int promotion = leadership + experience;
         System.out.printf("**** HealthMinister: getPromotion %d *****\n", promotion);
         return promotion;
     }
@@ -46,10 +48,18 @@ public class HealthMinister extends Director{
      * @throws NoEnoughBudgetException,NegativeValException
      */
     @Override
-    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
+    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, NegativeValException, AddedContTechException {
         // TODO
         super.buildHospital(player, city);
         player.addPoint(Constants.BUILD_HOSPITAL_POINTS * getPromotion());
+        player.addContainmentTech(new Treatment(""));
+    }
+
+    @Override
+    public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException, NegativeValException, AddedContTechException {
+        super.buildMasksFactory(player, city);
+        player.addPoint(Constants.BUILD_MASK_FACTORY_COST * getPromotion());
+        player.addContainmentTech(new Treatment(""));
     }
 
     /**

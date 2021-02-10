@@ -1,4 +1,4 @@
-Rating of Each Director is 1..5 for each category (leadership, science, administration)
+Rating of Each Director is 1..5 for each category (leadership, science, experience)
 
 HealthMinister 5 2 2
 ChiefExecutive 3 1 5

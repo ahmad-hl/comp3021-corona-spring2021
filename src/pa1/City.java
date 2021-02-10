@@ -22,8 +22,8 @@ public class City {
 
     // Improvements
     private int hospitals;
-    private int medicalLabs;
-    private int medicineFactories;
+    private int maskFactories;
+    private boolean vaccineAvailable;
 
     public City(int id, String name, int population, int doctors,boolean travelBanned, int infectedCases, int recoveredCases, float spreadRate) {
         this.id = id;
@@ -44,20 +44,13 @@ public class City {
         hospitals++;
     }
 
-    /**
-     * Adds number of medical labs by one
-     */
-    public void addMedicalLab() {
-        // TODO
-        medicalLabs++;
-    }
 
     /**
      * Adds number of medicine factories by one
      */
-    public void addMedicineFactory() {
+    public void addMaskFactory() {
         // TODO
-        medicineFactories++;
+        maskFactories++;
     }
 
     /**
@@ -131,6 +124,15 @@ public class City {
     }
 
     /**
+     * set vaccineAvailable to a value
+     * @param val
+     */
+    public void setVaccineAvailable(boolean val) {
+        // TODO
+        vaccineAvailable = val;
+    }
+
+    /**
      * Increase the number of infected cases according to spread ratio
      * throw negative exception if decrease operation leads to negative # doctors
      */
@@ -178,18 +180,18 @@ public class City {
         return hospitals;
     }
 
-    public int getMedicalLabs() {
-        return medicalLabs;
+    public int getMaskFactories() {
+        return maskFactories;
     }
 
-    public int getMedicineFactories() {
-        return medicineFactories;
+    public boolean isVaccineAvailable() {
+        return vaccineAvailable;
     }
 
     @Override
     public String toString() {
-        String toStr = String.format("%s | population: %d | doctors: %d | # of hospitals: %d | # of medical labs: %d | # of medicine factories: %d",
-                name, population, doctors, hospitals, medicalLabs, medicineFactories);
+        String toStr = String.format("%s | population: %d | doctors: %d | # of hospitals: %d | # of mask factories: %d",
+                name, population, doctors, hospitals, maskFactories);
         return toStr;
     }
 

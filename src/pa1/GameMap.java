@@ -54,17 +54,20 @@ public class GameMap {
                 for (int m = 0; m < 3; m++) { //numMinisters = 3
                     tokens = in.readLine().split(" ");
                     String type = tokens[0];
+                    int leadership = Integer.parseInt(tokens[1]);
+                    int experience = Integer.parseInt(tokens[2]);
+                    int science = Integer.parseInt(tokens[3]);
 
                     Director director = null;
                     switch (type.toLowerCase()) {
                         case "healthminister":
-                            director = new HealthMinister();
+                            director = new HealthMinister(leadership, experience, science);
                             break;
                         case "chiefexecutive":
-                            director = new ChiefExecutive();
+                            director = new ChiefExecutive(leadership, experience, science);
                             break;
                         case "epidemiologist":
-                            director = new Epidemiologist();
+                            director = new Epidemiologist(leadership, experience, science);
                             break;
                         default:
                             break;
