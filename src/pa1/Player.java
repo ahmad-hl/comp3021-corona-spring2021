@@ -2,10 +2,10 @@ package pa1;
 
 import pa1.containment.Containment;
 import pa1.directors.Director;
-import pa1.directors.HealthMinister;
 import pa1.exceptions.NegativeValException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,14 +17,15 @@ public class Player {
 
     // Assets
     private final List<Director> directors = new ArrayList<>();
-    private final List<City> cities = new ArrayList<>();
-    private final List<Containment> containTechniques = new ArrayList<>();
+    private final HashMap<String, Containment> containTechniques = new HashMap<>();
 
     // Attributes
     private final String name;
     private float budget;
     private int tourismIncome;
     private int points;
+
+    private City city;
 
     /**
      * Initializes member variables.
@@ -40,7 +41,6 @@ public class Player {
     public String toString() {
         String toStr = String.format("Player: %s | budget: %f | tourism income: %d | points: %d",
                 name, budget, tourismIncome, points);
-//        cities.forEach(City::toString);
 //        ministers.forEach(HealthMinister::toString);
 
         return toStr;
@@ -100,6 +100,19 @@ public class Player {
         return getDirectors().stream().anyMatch(Director::isReady);
     }
 
+    /**
+     * Adds a containment technique.
+     *
+     * @param cont
+     */
+    public void addContainmentTech(Containment cont) {
+        // TODO
+        containTechniques.put(cont.getName(), cont);
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 
     // Trivial getters
 
@@ -108,11 +121,11 @@ public class Player {
         return directors;
     }
 
-    public List<City> getCities() {
-        return cities;
+    public City getCity() {
+        return city;
     }
 
-    public List<Containment> getContainTechniques() {
+    public HashMap<String, Containment> getContainTechniques() {
         return containTechniques;
     }
 
@@ -122,10 +135,6 @@ public class Player {
 
     public float getBudget() {
         return budget;
-    }
-
-    public int getTourismIncome() {
-        return tourismIncome;
     }
 
     public int getPoints() {

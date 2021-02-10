@@ -1,6 +1,8 @@
-package pa1;
+package pa1.util;
 
 
+import pa1.City;
+import pa1.Player;
 import pa1.directors.ChiefExecutive;
 import pa1.directors.Director;
 import pa1.directors.Epidemiologist;
@@ -43,28 +45,30 @@ public class GameMap {
                 int cityId = Integer.parseInt(tokens[0]);
                 String name = tokens[1];
                 int population = Integer.parseInt(tokens[2]);
-                int doctors = Integer.parseInt(tokens[3]);
-                int infectedCases = Integer.parseInt(tokens[4]);
-                int recoverCases = Integer.parseInt(tokens[5]);
-                float spreadRate = Float.parseFloat(tokens[6]);
+                int infectedCases = Integer.parseInt(tokens[3]);
+                int recoverCases = Integer.parseInt(tokens[4]);
+                float spreadRate = Float.parseFloat(tokens[5]);
 
-                City city = new City(cityId, name, population, doctors, false, infectedCases,recoverCases,spreadRate);
-                player.getCities().add(city);
+                City city = new City(cityId, name, population, false, infectedCases,recoverCases,spreadRate);
+                player.setCity(city);
 
                 for (int m = 0; m < 3; m++) { //numMinisters = 3
                     tokens = in.readLine().split(" ");
                     String type = tokens[0];
+                    int leadership = Integer.parseInt(tokens[1]);
+                    int experience = Integer.parseInt(tokens[2]);
+                    int science = Integer.parseInt(tokens[3]);
 
                     Director director = null;
                     switch (type.toLowerCase()) {
                         case "healthminister":
-                            director = new HealthMinister();
+                            director = new HealthMinister(leadership, experience, science);
                             break;
                         case "chiefexecutive":
-                            director = new ChiefExecutive();
+                            director = new ChiefExecutive(leadership, experience, science);
                             break;
                         case "epidemiologist":
-                            director = new Epidemiologist();
+                            director = new Epidemiologist(leadership, experience, science);
                             break;
                         default:
                             break;

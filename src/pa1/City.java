@@ -14,7 +14,6 @@ public class City {
 
     // Attributes
     private int population;
-    private int doctors;
     private boolean travelBanned;
     private int infectedCases;
     private int recoveredCases;
@@ -22,14 +21,13 @@ public class City {
 
     // Improvements
     private int hospitals;
-    private int medicalLabs;
-    private int medicineFactories;
+    private int maskFactories;
+    private boolean vaccineAvailable;
 
-    public City(int id, String name, int population, int doctors,boolean travelBanned, int infectedCases, int recoveredCases, float spreadRate) {
+    public City(int id, String name, int population,boolean travelBanned, int infectedCases, int recoveredCases, float spreadRate) {
         this.id = id;
         this.name = name;
         this.population = population;
-        this.doctors = doctors;
         this.travelBanned = travelBanned;
         this.infectedCases = infectedCases;
         this.recoveredCases = recoveredCases;
@@ -44,50 +42,13 @@ public class City {
         hospitals++;
     }
 
-    /**
-     * Adds number of medical labs by one
-     */
-    public void addMedicalLab() {
-        // TODO
-        medicalLabs++;
-    }
 
     /**
      * Adds number of medicine factories by one
      */
-    public void addMedicineFactory() {
+    public void addMaskFactory() {
         // TODO
-        medicineFactories++;
-    }
-
-    /**
-     * Adds number of doctors by specified increment.
-     * If the increment is negative, raise exception.
-     *
-     * @param increment
-     */
-    public void addDoctors(int increment) throws NegativeValException {
-        // TODO
-
-        if (increment < 0)
-            throw new NegativeValException(increment);
-        else
-            doctors += increment;
-    }
-
-    /**
-     * Decreases number of doctors by the amount specified
-     * throw negative exception if decrease operation leads to negative # doctors
-     *
-     * @param decrement
-     */
-    public void decreaseDoctors(int decrement) throws NegativeValException {
-        // TODO
-        if (decrement > doctors)
-            throw new NegativeValException(decrement);
-        else
-            doctors -= decrement;
-
+        maskFactories++;
     }
 
     /**
@@ -131,6 +92,15 @@ public class City {
     }
 
     /**
+     * set vaccineAvailable to a value
+     * @param val
+     */
+    public void setVaccineAvailable(boolean val) {
+        // TODO
+        vaccineAvailable = val;
+    }
+
+    /**
      * Increase the number of infected cases according to spread ratio
      * throw negative exception if decrease operation leads to negative # doctors
      */
@@ -148,10 +118,6 @@ public class City {
 
     public int getPopulation() {
         return population;
-    }
-
-    public int getDoctors() {
-        return doctors;
     }
 
     public boolean isTravelBanned() {
@@ -178,18 +144,18 @@ public class City {
         return hospitals;
     }
 
-    public int getMedicalLabs() {
-        return medicalLabs;
+    public int getMaskFactories() {
+        return maskFactories;
     }
 
-    public int getMedicineFactories() {
-        return medicineFactories;
+    public boolean isVaccineAvailable() {
+        return vaccineAvailable;
     }
 
     @Override
     public String toString() {
-        String toStr = String.format("%s | population: %d | doctors: %d | # of hospitals: %d | # of medical labs: %d | # of medicine factories: %d",
-                name, population, doctors, hospitals, medicalLabs, medicineFactories);
+        String toStr = String.format("%s | population: %d | # of hospitals: %d | # of mask factories: %d",
+                name, population, hospitals, maskFactories);
         return toStr;
     }
 

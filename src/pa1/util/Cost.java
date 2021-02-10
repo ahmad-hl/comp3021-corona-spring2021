@@ -7,16 +7,12 @@ package pa1.util;
 // TODO
 public class Cost {
 
-    public static int getMedicalLabCost(){
-        return Constants.BUILD_MEDICAL_LAB_COST;
+    public static int getMasksFactoryCost(){
+        return Constants.BUILD_MASK_FACTORY_COST;
     }
 
     public static int getHospitalCost(){
         return Constants.BUILD_HOSPITAL_COST;
-    }
-
-    public static int getDoctorsCost(int numDoctors ){
-        return Constants.RECRUITE_DOCTOR_COST * numDoctors;
     }
 
 }

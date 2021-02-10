@@ -2,25 +2,21 @@ package pa1.directors;
 
 
 import pa1.City;
+import pa1.containment.Vaccination;
 import pa1.exceptions.NegativeValException;
 import pa1.util.Constants;
-import pa1.util.Cost;
 import pa1.Player;
-import pa1.exceptions.NoEnoughBudgetException;
 
 public class Epidemiologist extends Director {
 
     /**
      * Calls the superclass' constructor
-     *
+     * @param leadership
+     * @param experience
+     * @param science
      */
-    public Epidemiologist() {
-        // TODO
-        super();
-    }
-
-    public Epidemiologist(int leasdership, int experience, int science) {
-        super(leasdership, experience, science);
+    public Epidemiologist(int leadership, int experience, int science) {
+        super(leadership, experience, science);
     }
 
     @Override
@@ -30,6 +26,13 @@ public class Epidemiologist extends Director {
         return promotion;
     }
 
+    @Override
+    public void developVaccine(Player player, City city) throws NegativeValException {
+        super.developVaccine(player, city);
+        player.addPoint(Constants.DEVELOP_VACCINE_POINTS * getPromotion());
+        int pos = player.getContainTechniques().size();
+        player.addContainmentTech(new Vaccination(pos));
+    }
 
     /**
      * Example string representation:

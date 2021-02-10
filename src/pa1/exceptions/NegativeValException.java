@@ -15,12 +15,7 @@ public class NegativeValException extends Exception {
         this.val = val;
     }
 
-    /**
-     * Constructs an error message in the form:
-     * "need (%d golds, %d production points, %d science points), have (%d golds, %d production points, %d science points)"
-     *
-     * @return
-     */
+
     @Override
     public String getMessage() {
         return String.format("require value >0, enter %d ", val);
