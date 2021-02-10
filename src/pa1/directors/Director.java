@@ -65,7 +65,7 @@ public abstract class Director{
         isReady = false;
     }
 
-    public int getPromotion(){
+    public int getPromotion(Player player){
         return 1;
     }
 

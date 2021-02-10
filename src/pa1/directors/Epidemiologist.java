@@ -20,7 +20,7 @@ public class Epidemiologist extends Director {
     }
 
     @Override
-    public int getPromotion(){
+    public int getPromotion(Player player){
         int promotion = experience + science;
         System.out.printf("**** Epidemiologist: getPromotion %d *****\n", promotion);
         return promotion;
@@ -29,7 +29,7 @@ public class Epidemiologist extends Director {
     @Override
     public void developVaccine(Player player, City city) throws NegativeValException {
         super.developVaccine(player, city);
-        player.addPoint(Constants.DEVELOP_VACCINE_POINTS * getPromotion());
+        player.addPoint(Constants.DEVELOP_VACCINE_POINTS * getPromotion(player));
         int pos = player.getContainTechniques().size();
         player.addContainmentTech(new Vaccination(pos));
     }

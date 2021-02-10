@@ -122,10 +122,10 @@ public class GameEngine {
 
     public void printContTechs(){
         for (Player player: gameMap.getPlayers()) {
-            HashMap<String, Containment> conts = player.getContainTechniques();
-            conts.entrySet().forEach(entry->{
-                System.out.println(entry.getValue());
-            });
+            System.out.printf("Player ( %s ) Containment Techniques:\n", player.getName());
+            for (Containment cont: player.getContainTechniques()) {
+                System.out.printf("\t%s",cont);
+            }
         }
     }
 
@@ -147,7 +147,6 @@ public class GameEngine {
             default:
                 break;
         }
-        printContTechs();
     }
 
     public static void main(String[] args) {
@@ -155,7 +154,7 @@ public class GameEngine {
 
         try {
             game.gameMap.loadPlayers("players.txt");
-//            game.gameMap.getPlayers().forEach(Player::toString);
+            game.gameMap.getPlayers().forEach(Player::toString);
             for (Player player :  game.gameMap.getPlayers()) {
                 System.out.println(player);
                 System.out.printf("City: %s \nDirector:",player.getCity());
@@ -169,6 +168,7 @@ public class GameEngine {
                 game.processPlayersTurn();
                 i++;
             }
+            game.printContTechs();
 
             Player winner = game.getWinner();
             Player firstPlayer = game.gameMap.getPlayers().get(0);

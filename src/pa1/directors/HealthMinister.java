@@ -1,6 +1,9 @@
 package pa1.directors;
 
 import pa1.City;
+import pa1.containment.Containment;
+import pa1.containment.FaceMask;
+import pa1.containment.Isolation;
 import pa1.containment.Treatment;
 import pa1.util.Constants;
 import pa1.Player;
@@ -26,8 +29,13 @@ public class HealthMinister extends Director{
     }
 
     @Override
-    public int getPromotion(){
+    public int getPromotion(Player player){
         int promotion = leadership + experience;
+
+        for (Containment cont:player.getContainTechniques()) {
+            if(cont instanceof Isolation)
+                promotion *= 2;
+        }
         System.out.printf("**** HealthMinister: getPromotion %d *****\n", promotion);
         return promotion;
     }
@@ -47,7 +55,7 @@ public class HealthMinister extends Director{
     public void buildHospital(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
         // TODO
         super.buildHospital(player, city);
-        player.addPoint(Constants.BUILD_HOSPITAL_POINTS * getPromotion());
+        player.addPoint(Constants.BUILD_HOSPITAL_POINTS * getPromotion(player));
         int pos = player.getContainTechniques().size();
         player.addContainmentTech(new Treatment(pos));
     }
@@ -55,9 +63,9 @@ public class HealthMinister extends Director{
     @Override
     public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException, NegativeValException {
         super.buildMasksFactory(player, city);
-        player.addPoint(Constants.BUILD_MASK_FACTORY_COST * getPromotion());
+        player.addPoint(Constants.BUILD_MASK_FACTORY_COST * getPromotion(player));
         int pos = player.getContainTechniques().size();
-        player.addContainmentTech(new Treatment(pos));
+        player.addContainmentTech(new FaceMask(pos));
     }
 
     /**

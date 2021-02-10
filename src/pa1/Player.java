@@ -17,7 +17,7 @@ public class Player {
 
     // Assets
     private final List<Director> directors = new ArrayList<>();
-    private final HashMap<String, Containment> containTechniques = new HashMap<>();
+    private final List<Containment> containTechniques = new ArrayList<>();
 
     // Attributes
     private final String name;
@@ -41,8 +41,6 @@ public class Player {
     public String toString() {
         String toStr = String.format("Player: %s | budget: %f | tourism income: %d | points: %d",
                 name, budget, tourismIncome, points);
-//        ministers.forEach(HealthMinister::toString);
-
         return toStr;
     }
 
@@ -107,7 +105,7 @@ public class Player {
      */
     public void addContainmentTech(Containment cont) {
         // TODO
-        containTechniques.put(cont.getName(), cont);
+        containTechniques.add(cont);
     }
 
     public void setCity(City city) {
@@ -115,8 +113,6 @@ public class Player {
     }
 
     // Trivial getters
-
-
     public List<Director> getDirectors() {
         return directors;
     }
@@ -125,7 +121,7 @@ public class Player {
         return city;
     }
 
-    public HashMap<String, Containment> getContainTechniques() {
+    public List<Containment> getContainTechniques() {
         return containTechniques;
     }
 

@@ -19,7 +19,7 @@ public class ChiefExecutive extends Director {
     }
 
     @Override
-    public int getPromotion() {
+    public int getPromotion(Player player) {
         System.out.printf("**** ChiefExecutive: getPromotion %d *****\n", leadership);
         return leadership;
     }
@@ -27,7 +27,7 @@ public class ChiefExecutive extends Director {
     @Override
     public void banTravel(Player player, City city) throws NegativeValException {
         super.banTravel(player, city);
-        player.addPoint(Constants.BAN_TRAVEL_POINTS * getPromotion());
+        player.addPoint(Constants.BAN_TRAVEL_POINTS * getPromotion(player));
         int pos = player.getContainTechniques().size();
         player.addContainmentTech(new Isolation(pos));
 
@@ -36,7 +36,7 @@ public class ChiefExecutive extends Director {
     @Override
     public void TransferInfectedCases(Player player, City source, City dest, int cases) throws NegativeValException {
         super.TransferInfectedCases(player, source, dest, cases);
-        player.addPoint(Constants.TRANSFER_ACASE_POINTS *  getPromotion());
+        player.addPoint(Constants.TRANSFER_ACASE_POINTS *  getPromotion(player));
     }
 
     /**
