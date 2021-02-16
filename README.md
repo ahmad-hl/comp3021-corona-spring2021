@@ -3,4 +3,4 @@ Java Polymorphism, Inheritance
 
 Coronavirus Fighting System: Roles and Containment Techniques
 
-![alt text](fightCorono.png)
+![alt text](roles.png)
