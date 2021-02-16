@@ -2,7 +2,7 @@
 Java Polymorphism, Inheritance
 
 Roles to fight Coronavirus 
-![alt text](fightCorono.png)
+![alt text](roles.png)
 
 Containment Techniques
 ![alt text](containment.png)
