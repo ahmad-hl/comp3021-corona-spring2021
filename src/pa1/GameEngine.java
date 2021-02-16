@@ -1,6 +1,7 @@
 package pa1;
 
 import pa1.containment.Containment;
+import pa1.exceptions.BudgetRunoutException;
 import pa1.exceptions.MedicalException;
 import pa1.haStaff.HealthAuthorityStaff;
 import pa1.exceptions.NoEnoughBudgetException;
@@ -61,7 +62,7 @@ public class GameEngine {
         }
     }
 
-    private void processPlayersTurn() throws MedicalException {
+    private void processPlayersTurn() throws MedicalException, BudgetRunoutException, NoEnoughBudgetException {
         turns++;
         for (Player player :  gameMap.getPlayers()) {
 
@@ -110,7 +111,7 @@ public class GameEngine {
         return m;
     }
 
-    private void selectAndPerformAction(Player player, HealthAuthorityStaff healthAuthorityStaff, City city) {
+    private void selectAndPerformAction(Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws BudgetRunoutException, NoEnoughBudgetException {
         System.out.println("SELECT HAStaff ACTION");
         System.out.println("\t[ 1]\tBuild Hospital");
         System.out.println("\t[ 2]\tBuild Mask Factory");
@@ -120,13 +121,9 @@ public class GameEngine {
         System.out.println("\t[ 6]\tUpgrade the Vaccine");
 
         while (true) {
-            try {
-                int command = getSelection(1, 6, "action");
-                processPlayerCommand(command, player, healthAuthorityStaff, city);
-                break;
-            } catch (NoEnoughBudgetException e) {
-                System.out.println(e.getMessage());
-            }
+            int command = getSelection(1, 6, "action");
+            processPlayerCommand(command, player, healthAuthorityStaff, city);
+            break;
         }
     }
 
@@ -139,7 +136,7 @@ public class GameEngine {
         }
     }
 
-    private void processPlayerCommand(int command, Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws NoEnoughBudgetException {
+    private void processPlayerCommand(int command, Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws NoEnoughBudgetException, BudgetRunoutException {
 
         switch (command) {
             case 1:
@@ -183,10 +180,10 @@ public class GameEngine {
         Player secondPlayer = game.gameMap.getPlayers().get(1);
         Player winner = game.getWinner(firstPlayer, secondPlayer);
         if (winner == null)
-            System.out.printf("Players (%s has %d , %s has %d) are equal",firstPlayer.getName(), firstPlayer.getPoints(),
+            System.out.printf("Players (%s has %d , %s has %d) are equal\n",firstPlayer.getName(), firstPlayer.getPoints(),
                     secondPlayer.getName(), secondPlayer.getPoints() );
         else
-            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
+            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
     }
 
     public static void main(String[] args) {
@@ -198,7 +195,7 @@ public class GameEngine {
             printPlayersInfo(game.gameMap.getPlayers());
 
             int i =0;
-            while (i<1) {
+            while (i<10) {
                 game.processPlayersTurn();
                 i++;
             }
@@ -206,7 +203,11 @@ public class GameEngine {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (MedicalException e) {
-            e.printStackTrace();
+            System.out.printf("%s: %s\n",e, e.getMessage());
+        } catch (BudgetRunoutException e) {
+            System.out.printf("%s: %s\n",e, e.getMessage());
+        } catch (NoEnoughBudgetException e) {
+            System.out.printf("%s: %s\n",e, e.getMessage());
         } finally {
             findWinner(game);
         }

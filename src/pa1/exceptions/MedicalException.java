@@ -7,6 +7,7 @@ import pa1.Player;
  */
 public class MedicalException extends Exception {
 
+    private Player player = null;
     private final int population;
     private final int infectedCases;
     /**
@@ -15,6 +16,7 @@ public class MedicalException extends Exception {
      * @param player
      */
     public MedicalException(Player player) {
+        this.player = player;
         this.population = player.getCity().getPopulation();
         this.infectedCases = player.getCity().getInfectedCases();
     }
@@ -22,7 +24,8 @@ public class MedicalException extends Exception {
     /**
      * Initializes member variables
      *
-     * @param player
+     * @param population
+     * @param infectedCases
      */
     public MedicalException(int population, int infectedCases) {
         this.population = population;
@@ -38,5 +41,10 @@ public class MedicalException extends Exception {
     public String getMessage() {
         return String.format("Infected cases %d reached city's population %d",
                 infectedCases, population);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("MedicalException");
     }
 }

@@ -34,9 +34,8 @@ public abstract class Containment {
         this.vaccination_level= Math.min(100, currVaccinationLevel + vaccination_level);
     }
 
-    public void incrementMedication_level(int medication_level) {
-        int currMedLevel = this.medication_level;
-        this.medication_level= Math.min(100, currMedLevel + medication_level);
+    public void setMedication_level(int medication_level) {
+        this.medication_level= Math.min(100, medication_level);
     }
 
     //Trivial setters & getters

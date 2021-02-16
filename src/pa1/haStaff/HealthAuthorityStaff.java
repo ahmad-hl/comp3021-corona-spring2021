@@ -4,6 +4,7 @@ package pa1.haStaff;
 import pa1.City;
 import pa1.Player;
 import pa1.containment.*;
+import pa1.exceptions.BudgetRunoutException;
 import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.Constants;
 
@@ -59,9 +60,13 @@ public abstract class HealthAuthorityStaff {
      * @param player
      * @param city
      * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void buildHospital(Player player, City city) throws NoEnoughBudgetException {
+    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         int hospitalCost = Constants.BUILD_HOSPITAL_COST;
         boolean cantBuildHospital = hospitalCost > player.getBudget();
         if (cantBuildHospital) throw new NoEnoughBudgetException(player, hospitalCost);
@@ -72,19 +77,29 @@ public abstract class HealthAuthorityStaff {
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment){
-                System.out.printf("Containment Before Build Hospital: %s",cont);
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementMedication_level(Constants.HOSPITAL_MEDICATION_Percentage);
-                System.out.printf(" After Build Hospital: %s\n",cont);
                 alreadyExists = true;
+                break;
             }
         }
 
         if (!alreadyExists){
             Treatment treat = new Treatment();
-            treat.incrementMedication_level(Constants.HOSPITAL_MEDICATION_Percentage);
             player.addContainmentTech(treat);
         }
+
+        //update medication level: medication level = #hospitals * capacity * 100/ #infected cases
+        for (Containment cont:player.getContainTechniques()) {
+            if (cont instanceof Treatment) {
+                int index = player.getContainTechniques().indexOf(cont);
+                if (city.getInfectedCases() - city.getHospitals() * Constants.HOSPITAL_CAPACITY <= 0)
+                    player.getContainTechniques().get(index).setMedication_level(100);
+                else {
+                    player.getContainTechniques().get(index).setMedication_level((city.getHospitals() * Constants.HOSPITAL_CAPACITY * 100) / city.getInfectedCases());
+                }
+                System.out.printf(" medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
+            }
+        }
+
     }
 
 
@@ -98,9 +113,13 @@ public abstract class HealthAuthorityStaff {
      * @param player
      * @param city
      * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException {
+    public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         int maskFactoryCost = Constants.BUILD_MASK_FACTORY_COST;
         boolean cantBuildMedFactory = maskFactoryCost > player.getBudget();
         if (cantBuildMedFactory) throw new NoEnoughBudgetException(player, maskFactoryCost);
@@ -109,19 +128,25 @@ public abstract class HealthAuthorityStaff {
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
-                System.out.printf("Before Build Mask Factory: %s",cont);
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementProtection_level(Constants.MASK_PROTECTION_Percentage);
-                System.out.printf(" After Build Mask Factory: %s\n",cont);
                 alreadyExists = true;
             }
         }
 
         if (!alreadyExists){
             FaceMask fmask = new FaceMask();
-            fmask.incrementProtection_level(Constants.MASK_PROTECTION_Percentage);
             player.addContainmentTech(fmask);
         }
+
+        //update protection level
+        for (Containment cont:player.getContainTechniques()) {
+            if (cont instanceof FaceMask){
+                System.out.printf("Before Build Mask Factory: %s",cont);
+                int index = player.getContainTechniques().indexOf(cont);
+                player.getContainTechniques().get(index).incrementProtection_level(Constants.MASK_PROTECTION_Percentage);
+                System.out.printf(" After Build Mask Factory: %s\n",cont);
+            }
+        }
+
     }
 
     /**
@@ -134,9 +159,13 @@ public abstract class HealthAuthorityStaff {
      * @param player
      * @param city
      * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void upgradeFMaskQuality(Player player, City city) throws NoEnoughBudgetException {
+    public void upgradeFMaskQuality(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         int upgradeMaskQualityCost = Constants.UPGRADE_MASK_QUALITY_COST;
         boolean cantUpgradeMaskQuality = upgradeMaskQualityCost > player.getBudget();
         if (cantUpgradeMaskQuality) throw new NoEnoughBudgetException(player, upgradeMaskQualityCost);
@@ -162,9 +191,14 @@ public abstract class HealthAuthorityStaff {
      *
      * @param player
      * @param city
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void developVaccine(Player player, City city) throws NoEnoughBudgetException {
+    public void developVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         int developVaccineCost = Constants.DEVELOP_VACCINE_COST;
         boolean cantDevelopVaccine = developVaccineCost > player.getBudget();
 
@@ -176,19 +210,25 @@ public abstract class HealthAuthorityStaff {
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                System.out.printf("Containment Before Develop Vaccine: %s",cont);
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
-                System.out.printf(" After Develop Vaccine: %s\n",cont);
                 alreadyExists = true;
             }
         }
 
         if (!alreadyExists){
             Vaccination vacc = new Vaccination();
-            vacc.incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
             player.addContainmentTech(vacc);
         }
+
+        //update vaccination level
+        for (Containment cont:player.getContainTechniques()) {
+            if (cont instanceof Vaccination){
+                System.out.printf("Before Develop Vaccine: %s",cont);
+                int index = player.getContainTechniques().indexOf(cont);
+                player.getContainTechniques().get(index).incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
+                System.out.printf(" After Develop Vaccine: %s\n",cont);
+            }
+        }
+
     }
 
     /**
@@ -201,21 +241,26 @@ public abstract class HealthAuthorityStaff {
      *
      * @param player
      * @param city
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void upgradeVaccine(Player player, City city) throws NoEnoughBudgetException {
+    public void upgradeVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         int upgradeVaccineCost = Constants.UPGRADE_VACCINE_COST;
         boolean cantUpgradeVaccine = upgradeVaccineCost > player.getBudget();
         if (cantUpgradeVaccine) throw new NoEnoughBudgetException(player, upgradeVaccineCost);
 
-        //update the vaccination level
+        //update vaccination level
         player.decreaseBudget(upgradeVaccineCost);
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                System.out.printf("Containment Before Upgrade: %s",cont);
+                System.out.printf("Before vaccine Upgrade: %s",cont);
                 int index = player.getContainTechniques().indexOf(cont);
                 player.getContainTechniques().get(index).incrementVaccination_level(Constants.UPGRADE_VACCINE_Percentage);
-                System.out.printf(" After Upgrade: %s\n",cont);
+                System.out.printf(" After vaccine Upgrade: %s\n",cont);
             }
         }
     }
@@ -227,9 +272,14 @@ public abstract class HealthAuthorityStaff {
      * HINT:
      * @param player
      * @param city
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
      */
-    public void banTravel(Player player, City city) throws NoEnoughBudgetException {
+    public void banTravel(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
+        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
+            throw new BudgetRunoutException(player);
+
         boolean cantBanTravel = (player.getBudget() - player.getTourismIncome()) < 0;
 
         if (cantBanTravel) throw new NoEnoughBudgetException(player, player.getTourismIncome());
@@ -241,19 +291,25 @@ public abstract class HealthAuthorityStaff {
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Isolation){
-                System.out.printf("Containment Before TravelBan: %s",cont);
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementProtection_level(Constants.TRAVELBAN_PROTECTION_Percentage);
-                System.out.printf(" After TravelBan: %s\n",cont);
                 alreadyExists = true;
             }
         }
 
         if (!alreadyExists){
-            Vaccination vacc = new Vaccination();
-            vacc.incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
-            player.addContainmentTech(vacc);
+            Isolation iso = new Isolation();
+            player.addContainmentTech(iso);
         }
+
+        //update protection level
+        for (Containment cont:player.getContainTechniques()) {
+            if (cont instanceof Isolation){
+                System.out.printf("Containment Before TravelBan: %s",cont);
+                int index = player.getContainTechniques().indexOf(cont);
+                player.getContainTechniques().get(index).incrementProtection_level(Constants.TRAVELBAN_PROTECTION_Percentage);
+                System.out.printf(" After TravelBan: %s\n",cont);
+            }
+        }
+
     }
 
     /**

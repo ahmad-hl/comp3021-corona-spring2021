@@ -7,6 +7,7 @@ import pa1.Player;
  */
 public class NoEnoughBudgetException extends Exception {
 
+    private final Player player;
     private final int cost;
     private final float playerBudget;
     /**
@@ -16,6 +17,7 @@ public class NoEnoughBudgetException extends Exception {
      * @param cost
      */
     public NoEnoughBudgetException(Player player, int cost) {
+        this.player = player;
         this.cost = cost;
         this.playerBudget = player.getBudget();
     }
@@ -29,5 +31,10 @@ public class NoEnoughBudgetException extends Exception {
     public String getMessage() {
         return String.format("need %d cost, have only %f budget",
                 cost, playerBudget);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("NoEnoughBudgetException for player %", player.getName());
     }
 }

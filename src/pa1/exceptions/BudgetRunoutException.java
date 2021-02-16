@@ -7,6 +7,7 @@ import pa1.Player;
  */
 public class BudgetRunoutException extends Exception {
 
+    private final Player player;
     private final float playerBudget;
     /**
      * Initializes member variables
@@ -14,6 +15,7 @@ public class BudgetRunoutException extends Exception {
      * @param player
      */
     public BudgetRunoutException(Player player) {
+        this.player = player;
         this.playerBudget = player.getBudget();
     }
 
@@ -25,5 +27,10 @@ public class BudgetRunoutException extends Exception {
     @Override
     public String getMessage() {
         return String.format("run out of budget %d ", playerBudget);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("BudgetRunoutException for player %", player.getName());
     }
 }
