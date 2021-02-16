@@ -1,6 +1,9 @@
 package pa1;
 
-import pa1.exceptions.NegativeValException;
+import pa1.exceptions.MedicalException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that represents a city of interest
@@ -17,21 +20,21 @@ public class City {
     private boolean travelBanned;
     private int infectedCases;
     private int recoveredCases;
-    private float spreadRate;
+    private int numNewCases;
+    private List<Integer> newCases;
 
     // Improvements
     private int hospitals;
-    private int maskFactories;
     private boolean vaccineAvailable;
 
-    public City(int id, String name, int population,boolean travelBanned, int infectedCases, int recoveredCases, float spreadRate) {
+    public City(int id, String name, int population,boolean travelBanned, int infectedCases, int recoveredCases) {
         this.id = id;
         this.name = name;
         this.population = population;
         this.travelBanned = travelBanned;
         this.infectedCases = infectedCases;
         this.recoveredCases = recoveredCases;
-        this.spreadRate = spreadRate;
+        this.newCases = new ArrayList<>();
     }
 
     /**
@@ -42,28 +45,21 @@ public class City {
         hospitals++;
     }
 
-
-    /**
-     * Adds number of medicine factories by one
-     */
-    public void addMaskFactory() {
-        // TODO
-        maskFactories++;
-    }
-
     /**
      * Increases number of cases by the amount specified
      * throw negative exception if decrease operation leads to negative # doctors
      *
      * @param increment
      */
-    public void increaseInfectedCases(int increment) throws NegativeValException {
+    public void increaseInfectedCases(int increment) throws MedicalException {
         // TODO
         if (increment < 0)
-            throw new NegativeValException(increment);
-        else
-            infectedCases += increment;
-
+            increaseInfectedCases(-increment);
+        else if (infectedCases+ increment >= population) {
+            infectedCases = Math.min(population, infectedCases + increment);
+            throw new MedicalException(population, infectedCases);
+        }
+        else infectedCases = infectedCases+ increment;
     }
 
     /**
@@ -72,14 +68,18 @@ public class City {
      *
      * @param decrement
      */
-    public void decreaseInfectedCases(int decrement) throws NegativeValException {
+    public void decreaseInfectedCases(int decrement) {
         // TODO
         if (decrement < 0)
-            throw new NegativeValException(decrement);
+            decreaseInfectedCases(-decrement);
         else {
-            infectedCases -= decrement;
-            recoveredCases += decrement;
+            infectedCases = Math.max(0, infectedCases - decrement);
+            recoveredCases = Math.min(population, recoveredCases + decrement);
         }
+    }
+
+    public void addNewCases(int newCasesToAdd){
+        newCases.add(newCasesToAdd);
     }
 
     /**
@@ -100,12 +100,12 @@ public class City {
         vaccineAvailable = val;
     }
 
-    /**
-     * Increase the number of infected cases according to spread ratio
-     * throw negative exception if decrease operation leads to negative # doctors
-     */
-    public void updateInfectedCasesBySpreadRate(){
-        infectedCases += infectedCases * spreadRate;
+    public void setNumNewCases(int numNewCases) {
+        this.numNewCases = numNewCases;
+    }
+
+    public int getNumNewCases() {
+        return numNewCases;
     }
 
     public int getId() {
@@ -132,20 +132,8 @@ public class City {
         return recoveredCases;
     }
 
-    public float getSpreadRate() {
-        return spreadRate;
-    }
-
-    public void setSpreadRate(float spreadRate) {
-        this.spreadRate = spreadRate;
-    }
-
     public int getHospitals() {
         return hospitals;
-    }
-
-    public int getMaskFactories() {
-        return maskFactories;
     }
 
     public boolean isVaccineAvailable() {
@@ -154,8 +142,8 @@ public class City {
 
     @Override
     public String toString() {
-        String toStr = String.format("%s | population: %d | # of hospitals: %d | # of mask factories: %d",
-                name, population, hospitals, maskFactories);
+        String toStr = String.format("%s | infectedCases %d | recoveredCases %d | newCases %d |  population: %d | # of hospitals: %d",
+                name, infectedCases, recoveredCases, numNewCases , population, hospitals);
         return toStr;
     }
 

@@ -5,18 +5,15 @@ import pa1.Player;
 /**
  * Exception thrown when player does not have enough budget to afford a cost
  */
-public class NoEnoughBudgetException extends Exception {
+public class BudgetRunoutException extends Exception {
 
-    private final int cost;
     private final float playerBudget;
     /**
      * Initializes member variables
      *
      * @param player
-     * @param cost
      */
-    public NoEnoughBudgetException(Player player, int cost) {
-        this.cost = cost;
+    public BudgetRunoutException(Player player) {
         this.playerBudget = player.getBudget();
     }
 
@@ -27,7 +24,6 @@ public class NoEnoughBudgetException extends Exception {
      */
     @Override
     public String getMessage() {
-        return String.format("need %d cost, have only %f budget",
-                cost, playerBudget);
+        return String.format("run out of budget %d ", playerBudget);
     }
 }

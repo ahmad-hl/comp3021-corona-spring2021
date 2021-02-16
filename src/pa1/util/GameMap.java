@@ -3,10 +3,10 @@ package pa1.util;
 
 import pa1.City;
 import pa1.Player;
-import pa1.directors.ChiefExecutive;
-import pa1.directors.Director;
-import pa1.directors.Epidemiologist;
-import pa1.directors.HealthMinister;
+import pa1.haStaff.ChiefExecutive;
+import pa1.haStaff.HealthAuthorityStaff;
+import pa1.haStaff.Epidemiologist;
+import pa1.haStaff.HealthMinister;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -47,34 +47,30 @@ public class GameMap {
                 int population = Integer.parseInt(tokens[2]);
                 int infectedCases = Integer.parseInt(tokens[3]);
                 int recoverCases = Integer.parseInt(tokens[4]);
-                float spreadRate = Float.parseFloat(tokens[5]);
 
-                City city = new City(cityId, name, population, false, infectedCases,recoverCases,spreadRate);
+                City city = new City(cityId, name, population, false, infectedCases,recoverCases);
                 player.setCity(city);
 
                 for (int m = 0; m < 3; m++) { //numMinisters = 3
                     tokens = in.readLine().split(" ");
                     String type = tokens[0];
-                    int leadership = Integer.parseInt(tokens[1]);
-                    int experience = Integer.parseInt(tokens[2]);
-                    int science = Integer.parseInt(tokens[3]);
 
-                    Director director = null;
+                    HealthAuthorityStaff healthAuthorityStaff = null;
                     switch (type.toLowerCase()) {
                         case "healthminister":
-                            director = new HealthMinister(leadership, experience, science);
+                            healthAuthorityStaff = new HealthMinister();
                             break;
                         case "chiefexecutive":
-                            director = new ChiefExecutive(leadership, experience, science);
+                            healthAuthorityStaff = new ChiefExecutive();
                             break;
                         case "epidemiologist":
-                            director = new Epidemiologist(leadership, experience, science);
+                            healthAuthorityStaff = new Epidemiologist();
                             break;
                         default:
                             break;
                     }
 
-                    player.getDirectors().add(director);
+                    player.getHAStaffs().add(healthAuthorityStaff);
                 }
 
                 players.add(player);

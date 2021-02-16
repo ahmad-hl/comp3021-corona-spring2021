@@ -1,5 +1,0 @@
-Rating of Each Director is 1..5 for (leadership, science, experience)
-
-HealthMinister 5 2 2
-ChiefExecutive 3 1 5
-Epidemiologist 1 5 1

@@ -1,13 +1,12 @@
 package pa1;
 
 import pa1.containment.Containment;
-import pa1.directors.Director;
-import pa1.exceptions.NegativeValException;
+import pa1.exceptions.MedicalException;
+import pa1.haStaff.HealthAuthorityStaff;
 import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.GameMap;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,15 +24,26 @@ public class GameEngine {
      *
      * @return
      */
-    public Player getWinner() {
+    public Player getWinner(Player frstPlayer , Player secPlayer ) {
         // TODO
-        List<Player> players = gameMap.getPlayers();
-        if (players.get(0).getPoints() > players.get(1).getPoints())
-            return players.get(0);
-        else if  (players.get(0).getPoints() < players.get(1).getPoints())
-            return players.get(1);
-        else
-            return null;
+        if (frstPlayer.getCity().getInfectedCases() < secPlayer.getCity().getInfectedCases())
+            return frstPlayer;
+        else if (frstPlayer.getCity().getInfectedCases() > secPlayer.getCity().getInfectedCases())
+            return secPlayer;
+        else {
+            if( frstPlayer.getCity().getNumNewCases() < secPlayer.getCity().getNumNewCases())
+                return frstPlayer;
+            else if( frstPlayer.getCity().getNumNewCases() > secPlayer.getCity().getNumNewCases())
+                return secPlayer;
+            else{
+                if( frstPlayer.getPoints() > secPlayer.getPoints())
+                    return frstPlayer;
+                else if( frstPlayer.getPoints() < secPlayer.getPoints())
+                    return secPlayer;
+            }
+        }
+
+        return null;
     }
 
     private int getSelection(int min, int max, String name) {
@@ -51,45 +61,47 @@ public class GameEngine {
         }
     }
 
-    private void processPlayersTurn() {
+    private void processPlayersTurn() throws MedicalException {
         turns++;
         for (Player player :  gameMap.getPlayers()) {
 
-            player.getDirectors().forEach(Director::beginTurn);
+            player.getHAStaffs().forEach(HealthAuthorityStaff::beginTurn);
 
-            while (player.hasReadyDirector()) {
+            while (player.hasReadyHAStaff()) {
                 System.out.print("\n\n");
                 System.out.println(player);
                 System.out.print("\n\n");
-                Director director = selectDirector(player);
+                HealthAuthorityStaff healthAuthorityStaff = selectHAStaff(player);
 
-                if (director == null) break;
+                if (healthAuthorityStaff == null) break;
 
                 City city = player.getCity();
 
                 if (city == null) break;
 
                 System.out.print("\n\n");
-                selectAndPerformAction(player, director, city);
-                director.endTurn();
+                selectAndPerformAction(player, healthAuthorityStaff, city);
+                healthAuthorityStaff.endTurn();
             }
 
-            player.getCity().updateInfectedCasesBySpreadRate();
+            //Compute new infected cases & update total cases
+            player.computeNewInfectedCases();
+            printPlayerInfo(player);
         }
     }
 
-    private Director selectDirector(Player player) {
-        System.out.println("Director SELECTION");
-        for (int i = 0; i < player.getDirectors().size(); i++)
-            System.out.printf("\t[%d]\t%s\n", i + 1, player.getDirectors().get(i));
+    private HealthAuthorityStaff selectHAStaff(Player player) {
+        System.out.println("HAStaff SELECTION");
+        for (int i = 0; i < player.getHAStaffs().size(); i++)
+            System.out.printf("\t[%d]\t%s\n", i + 1, player.getHAStaffs().get(i));
 
-        Director m = null;
+        HealthAuthorityStaff m = null;
         while (true) {
-            int selection = getSelection(1, player.getDirectors().size(), "director (0 to skip turn)");
+            int selection = getSelection(1, player.getHAStaffs().size(), "HAStaff (0 to skip turn)");
             if (selection == 0) break;
-            m = player.getDirectors().get(selection - 1);
+            m = player.getHAStaffs().get(selection - 1);
             if (!m.isReady()) {
-                System.out.println("Selected director already performed a task");
+                System.out.println("Selected HAStaff already performed a task");
             } else {
                 break;
             }
@@ -98,27 +110,22 @@ public class GameEngine {
         return m;
     }
 
-    private void selectAndPerformAction(Player player, Director director, City city) {
-
-
-        System.out.println("SELECT Director ACTION");
+    private void selectAndPerformAction(Player player, HealthAuthorityStaff healthAuthorityStaff, City city) {
+        System.out.println("SELECT HAStaff ACTION");
         System.out.println("\t[ 1]\tBuild Hospital");
         System.out.println("\t[ 2]\tBuild Mask Factory");
-        System.out.println("\t[ 3]\tDevelop Vaccine");
+        System.out.println("\t[ 3]\tUpgrade Mask Quality");
         System.out.println("\t[ 4]\tBan Travel");
-        System.out.println("\t[ 5]\tApply Vaccination");
-        System.out.println("\t[ 6]\tDistribute Face Masks");
-        System.out.println("\t[ 7]\tTreat Infected Cases");
+        System.out.println("\t[ 5]\tDevelop Vaccine");
+        System.out.println("\t[ 6]\tUpgrade the Vaccine");
 
         while (true) {
             try {
-                int command = getSelection(1, 7, "action");
-                processPlayerCommand(command, player, director, city);
+                int command = getSelection(1, 6, "action");
+                processPlayerCommand(command, player, healthAuthorityStaff, city);
                 break;
             } catch (NoEnoughBudgetException e) {
                 System.out.println(e.getMessage());
-            } catch (NegativeValException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -132,33 +139,54 @@ public class GameEngine {
         }
     }
 
-    private void processPlayerCommand(int command, Player player, Director director, City city) throws NoEnoughBudgetException, NegativeValException {
+    private void processPlayerCommand(int command, Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws NoEnoughBudgetException {
 
         switch (command) {
             case 1:
-                director.buildHospital(player, city);
+                healthAuthorityStaff.buildHospital(player, city);
                 break;
             case 2:
-                director.buildMasksFactory(player, city);
+                healthAuthorityStaff.buildMasksFactory(player, city);
                 break;
             case 3:
-                director.developVaccine(player, city);
+                healthAuthorityStaff.upgradeFMaskQuality(player, city);
                 break;
             case 4:
-                director.banTravel(player, city);
+                healthAuthorityStaff.banTravel(player, city);
                 break;
             case 5:
-                director.applyVaccination(player, city);
+                healthAuthorityStaff.developVaccine(player, city);
                 break;
             case 6:
-                director.distributeFaceMasks(player, city);
-                break;
-            case 7:
-                director.treatInfectedCases(player, city);
+                healthAuthorityStaff.upgradeVaccine(player, city);
                 break;
             default:
                 break;
         }
+    }
+
+    private static void printPlayerInfo(Player player){
+        System.out.println(player);
+        System.out.printf("City: %s \nHealthAuthorityStaff:",player.getCity());
+        for (HealthAuthorityStaff healthAuthorityStaff :  player.getHAStaffs()) {
+            System.out.printf("\t %s \n", healthAuthorityStaff);
+        }
+    }
+    private static void printPlayersInfo(List<Player> players){
+        for (Player player :  players) {
+            printPlayerInfo(player);
+        }
+    }
+
+    private static void findWinner(GameEngine game ){
+        Player firstPlayer = game.gameMap.getPlayers().get(0);
+        Player secondPlayer = game.gameMap.getPlayers().get(1);
+        Player winner = game.getWinner(firstPlayer, secondPlayer);
+        if (winner == null)
+            System.out.printf("Players (%s has %d , %s has %d) are equal",firstPlayer.getName(), firstPlayer.getPoints(),
+                    secondPlayer.getName(), secondPlayer.getPoints() );
+        else
+            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
     }
 
     public static void main(String[] args) {
@@ -167,31 +195,20 @@ public class GameEngine {
         try {
             game.gameMap.loadPlayers("players.txt");
             game.gameMap.getPlayers().forEach(Player::toString);
-            for (Player player :  game.gameMap.getPlayers()) {
-                System.out.println(player);
-                System.out.printf("City: %s \nDirector:",player.getCity());
-                for (Director director :  player.getDirectors()) {
-                    System.out.printf("\t %s \n",director);
-                }
-            }
+            printPlayersInfo(game.gameMap.getPlayers());
 
             int i =0;
             while (i<1) {
                 game.processPlayersTurn();
                 i++;
             }
-            game.printContTechs();
 
-            Player winner = game.getWinner();
-            Player firstPlayer = game.gameMap.getPlayers().get(0);
-            Player secondPlayer = game.gameMap.getPlayers().get(1);
-            if (winner == null)
-                System.out.printf("Players (%s has %d , %s has %d) are equal",firstPlayer.getName(), firstPlayer.getPoints(),
-                        secondPlayer.getName(), secondPlayer.getPoints() );
-            else
-                System.out.printf("Player %s has  %d points, wins the game", winner.getName(), winner.getPoints());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (MedicalException e) {
+            e.printStackTrace();
+        } finally {
+            findWinner(game);
         }
     }
 }

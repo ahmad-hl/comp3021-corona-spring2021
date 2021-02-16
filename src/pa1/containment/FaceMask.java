@@ -2,8 +2,12 @@ package pa1.containment;
 
 public class FaceMask extends Containment {
 
-    public FaceMask(int pos) {
+    public FaceMask() {
+        super();
         this.name = "facemask";
-        this.pos = pos;
+    }
+
+    public int getProtection_level() {
+        return protection_level;
     }
 }

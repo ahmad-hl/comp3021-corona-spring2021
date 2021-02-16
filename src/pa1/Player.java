@@ -1,11 +1,14 @@
 package pa1;
 
 import pa1.containment.Containment;
-import pa1.directors.Director;
-import pa1.exceptions.NegativeValException;
+import pa1.containment.FaceMask;
+import pa1.containment.Isolation;
+import pa1.containment.Vaccination;
+import pa1.exceptions.MedicalException;
+import pa1.haStaff.HealthAuthorityStaff;
+import pa1.util.Constants;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,7 +19,7 @@ import java.util.List;
 public class Player {
 
     // Assets
-    private final List<Director> directors = new ArrayList<>();
+    private final List<HealthAuthorityStaff> healthAuthorityStaffs = new ArrayList<>();
     private final List<Containment> containTechniques = new ArrayList<>();
 
     // Attributes
@@ -62,10 +65,10 @@ public class Player {
      *
      * @param increment
      */
-    public void addPoint(int increment) throws NegativeValException {
+    public void addPoint(int increment) {
         // TODO
         if (increment < 0)
-            throw new NegativeValException(increment);
+           addPoint(-increment);
         else
             points += increment;
     }
@@ -91,11 +94,34 @@ public class Player {
     }
 
     /**
-     * @return true if the player has at least one ready director
+     * @return true if the player has at least one ready HAStaff
      */
-    public boolean hasReadyDirector() {
+    public boolean hasReadyHAStaff() {
         // TODO
-        return getDirectors().stream().anyMatch(Director::isReady);
+        return getHAStaffs().stream().anyMatch(HealthAuthorityStaff::isReady);
+    }
+
+    /**
+     * Compute new infected cases and updated total infected cases
+     * get current protection and vaccination level
+     * compute (IF) = .5*(100-protection level) + .5*(100-vaccination level)
+     * compute (new infected cases) = IF * infectedCases * population
+     * increase total infected cases
+     */
+    public void computeNewInfectedCases() throws MedicalException {
+        int currProtectionLevel = 0;
+        int currVaccinationLevel = 0;
+        for (Containment contTech: containTechniques) {
+            if (contTech instanceof Isolation || contTech instanceof FaceMask)
+                currProtectionLevel += (int) 0.5 * contTech.getProtection_level();
+            else if (contTech instanceof Vaccination)
+                currVaccinationLevel = contTech.getVaccination_level();
+        }
+        double increaseFactor = 0.5 * (Constants.MAX_LEVEL - currProtectionLevel) + 0.5 * (Constants.MAX_LEVEL - currVaccinationLevel);
+        int newInfectedCases = (int) Math.ceil(increaseFactor * city.getInfectedCases() );
+        city.setNumNewCases(newInfectedCases);
+        city.addNewCases(newInfectedCases);
+        city.increaseInfectedCases(newInfectedCases);
     }
 
     /**
@@ -113,8 +139,8 @@ public class Player {
     }
 
     // Trivial getters
-    public List<Director> getDirectors() {
-        return directors;
+    public List<HealthAuthorityStaff> getHAStaffs() {
+        return healthAuthorityStaffs;
     }
 
     public City getCity() {
@@ -131,6 +157,14 @@ public class Player {
 
     public float getBudget() {
         return budget;
+    }
+
+    public List<HealthAuthorityStaff> getHealthAuthorityStaffs() {
+        return healthAuthorityStaffs;
+    }
+
+    public int getTourismIncome() {
+        return tourismIncome;
     }
 
     public int getPoints() {
