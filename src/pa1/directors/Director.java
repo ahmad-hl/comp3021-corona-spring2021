@@ -3,6 +3,8 @@ package pa1.directors;
 
 import pa1.City;
 import pa1.Player;
+import pa1.containment.Containment;
+import pa1.containment.Vaccination;
 import pa1.exceptions.NegativeValException;
 import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.Constants;
@@ -129,6 +131,20 @@ public abstract class Director{
     }
 
     /**
+     * Distribute Face Masks
+     * 1. update player's points
+     * <p>
+     * HINT:
+     *
+     * @param player
+     * @param city
+     */
+    public void distributeFaceMasks(Player player, City city) throws NegativeValException {
+        // TODO
+        player.addPoint( Constants.DISTRIBUTE_FACEEMASK_POINTS);
+    }
+
+    /**
      * Develop a Vaccine
      * 1. update city's travelBanned to true
      * <p>
@@ -142,6 +158,37 @@ public abstract class Director{
         city.setVaccineAvailable(true);
         player.addPoint( Constants.DEVELOP_VACCINE_POINTS);
     }
+
+    /**
+     *  Apply Vaccination
+     * 1. update city's travelBanned to true
+     * <p>
+     * HINT:
+     *
+     * @param player
+     * @param city
+     */
+    public void applyVaccination(Player player, City city) throws NegativeValException{
+        // TODO
+        player.addPoint( Constants.APPLY_VACCINE_POINTS);
+    }
+
+    /**
+     * Treat Infected Cases
+     * 1. update city's infected cases
+     * 2. add points
+     * <p>
+     * HINT:
+     *
+     * @param player
+     * @param city
+     */
+    public void treatInfectedCases(Player player, City city) throws NegativeValException {
+        // TODO
+        city.decreaseInfectedCases(city.getInfectedCases());
+        player.addPoint( Constants.TREAT_INFECTED_POINTS);
+    }
+
 
     /**
      * Ban Travel

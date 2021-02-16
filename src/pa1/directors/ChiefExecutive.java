@@ -2,6 +2,7 @@ package pa1.directors;
 
 import pa1.City;
 import pa1.Player;
+import pa1.containment.FaceMask;
 import pa1.containment.Isolation;
 import pa1.exceptions.NegativeValException;
 import pa1.util.Constants;
@@ -30,7 +31,14 @@ public class ChiefExecutive extends Director {
         player.addPoint(Constants.BAN_TRAVEL_POINTS * getPromotion(player));
         int pos = player.getContainTechniques().size();
         player.addContainmentTech(new Isolation(pos));
+    }
 
+    @Override
+    public void distributeFaceMasks(Player player, City city) throws NegativeValException {
+        super.distributeFaceMasks(player, city);
+        player.addPoint(Constants.DISTRIBUTE_FACEEMASK_POINTS * getPromotion(player));
+        int pos = player.getContainTechniques().size();
+        player.addContainmentTech(new FaceMask(pos));
     }
 
     @Override

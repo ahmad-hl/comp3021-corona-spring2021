@@ -1,10 +1,7 @@
 package pa1.directors;
 
 import pa1.City;
-import pa1.containment.Containment;
-import pa1.containment.FaceMask;
-import pa1.containment.Isolation;
-import pa1.containment.Treatment;
+import pa1.containment.*;
 import pa1.util.Constants;
 import pa1.Player;
 
@@ -66,6 +63,41 @@ public class HealthMinister extends Director{
         player.addPoint(Constants.BUILD_MASK_FACTORY_COST * getPromotion(player));
         int pos = player.getContainTechniques().size();
         player.addContainmentTech(new FaceMask(pos));
+    }
+
+    /**
+     * Apply Vaccination
+     * 1. call parent's applyVaccination
+     * 2. add new points according to promotion
+     * <p>
+     * HINT:
+     *
+     * @param player
+     * @param city
+     */
+    public void applyVaccination(Player player, City city) throws NegativeValException {
+        // TODO
+        super.applyVaccination(player,city);
+        for (Containment cont:player.getContainTechniques()) {
+            if(cont instanceof Vaccination)
+                player.addPoint( Constants.APPLY_VACCINE_POINTS * getPromotion(player));
+        }
+    }
+
+    /**
+     * Treat Infected Cases
+     * 1.  call parent's treatInfectedCases
+     * 2. add new points according to promotion
+     * <p>
+     * HINT:
+     *
+     * @param player
+     * @param city
+     */
+    public void treatInfectedCases(Player player, City city) throws NegativeValException {
+        // TODO
+        super.treatInfectedCases(player, city);
+        player.addPoint( Constants.TREAT_INFECTED_POINTS * getPromotion(player));
     }
 
     /**

@@ -106,10 +106,13 @@ public class GameEngine {
         System.out.println("\t[ 2]\tBuild Mask Factory");
         System.out.println("\t[ 3]\tDevelop Vaccine");
         System.out.println("\t[ 4]\tBan Travel");
+        System.out.println("\t[ 5]\tApply Vaccination");
+        System.out.println("\t[ 6]\tDistribute Face Masks");
+        System.out.println("\t[ 7]\tTreat Infected Cases");
 
         while (true) {
             try {
-                int command = getSelection(1, 4, "action");
+                int command = getSelection(1, 7, "action");
                 processPlayerCommand(command, player, director, city);
                 break;
             } catch (NoEnoughBudgetException e) {
@@ -143,6 +146,15 @@ public class GameEngine {
                 break;
             case 4:
                 director.banTravel(player, city);
+                break;
+            case 5:
+                director.applyVaccination(player, city);
+                break;
+            case 6:
+                director.distributeFaceMasks(player, city);
+                break;
+            case 7:
+                director.treatInfectedCases(player, city);
                 break;
             default:
                 break;

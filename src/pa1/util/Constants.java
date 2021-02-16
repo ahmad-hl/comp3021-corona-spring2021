@@ -11,5 +11,8 @@ public class Constants {
     public final static int TRANSFER_ACASE_POINTS = 2;
     public final static int BUILD_HOSPITAL_POINTS = 10;
     public final static int BUILD_MASK_FACTORY_POINTS = 50;
+    public final static int DISTRIBUTE_FACEEMASK_POINTS = 50;
+    public final static int TREAT_INFECTED_POINTS = 50;
     public final static int DEVELOP_VACCINE_POINTS = 50;
+    public final static int APPLY_VACCINE_POINTS = 50;
 }
