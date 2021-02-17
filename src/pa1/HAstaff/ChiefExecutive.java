@@ -19,7 +19,7 @@ public class ChiefExecutive extends HealthAuthorityStaff {
     @Override
     public void banTravel(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.banTravel(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
     /**

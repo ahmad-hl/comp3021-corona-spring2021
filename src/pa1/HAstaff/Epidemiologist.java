@@ -20,19 +20,19 @@ public class Epidemiologist extends HealthAuthorityStaff {
     @Override
     public void developVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.developVaccine(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
     @Override
     public void upgradeVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.upgradeVaccine(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
     @Override
     public void upgradeFMaskQuality(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.upgradeFMaskQuality(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
     /**

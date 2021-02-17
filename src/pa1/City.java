@@ -45,6 +45,16 @@ public class City {
     }
 
     /**
+     * set Medication Facility Out Of Service
+     * 1. decrement facilities by 1
+     */
+    public void setMedicationFacilityOutOfService() {
+        // TODO
+        if(medicationFacilities > 0)
+            medicationFacilities--;
+    }
+
+    /**
      * Increases number of cases by the amount specified
      * throw negative exception if decrease operation leads to negative # doctors
      *
@@ -126,27 +136,24 @@ public class City {
         return medicationFacilities;
     }
 
+    public List<Integer> getNewCases() {
+        return newCases;
+    }
+
+    public boolean isGreaterNewCases(){
+        int newCasesLen = newCases.size();
+        if (newCasesLen >= 2){
+            if(newCases.get(newCasesLen -1)> newCases.get(newCasesLen -2))
+                return true;
+        }
+
+        return false;
+    }
+
     @Override
     public String toString() {
         String toStr = String.format("%s | infectedCases %d | recoveredCases %d | newCases %d |  population: %d | # of medication facilities: %d",
                 name, infectedCases, recoveredCases, numNewCases , population, medicationFacilities);
         return toStr;
-    }
-
-    /**
-     * Checks whether two cities are equal
-     * Two cities are equal when they have the same id
-     * Return false if Object o is not an instance of City
-     *
-     * @param o object to be compared
-     * @return result of equality check
-     */
-    @Override
-    public boolean equals(Object o) {
-        // TODO
-        if (o instanceof City)
-            return getId() == ((City) o).getId();
-
-        return false;
     }
 }

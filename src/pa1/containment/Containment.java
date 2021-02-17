@@ -16,16 +16,8 @@ public abstract class Containment {
         this.vaccination_level = 0;
     }
 
-    public Containment(String name, int protection_level, int medication_level, int vaccination_level) {
-        this.name = name;
-        this.protection_level = protection_level;
-        this.medication_level = medication_level;
-        this.vaccination_level = vaccination_level;
-    }
-
-
-    public void incrementProtection_level(int protection_level) {
-        this.protection_level = Math.min(100, this.protection_level + protection_level);
+    public void incrementProtection_level(int inLevel) {
+        protection_level = Math.min(100, protection_level + inLevel);
     }
 
     public void halfProtection_level() {
@@ -33,8 +25,8 @@ public abstract class Containment {
         protection_level= Math.max(0, protection_level);
     }
 
-    public void incrementVaccination_level(int vaccination_level) {
-        this.vaccination_level= Math.min(100, this.vaccination_level + vaccination_level);
+    public void incrementVaccination_level(int inLevel) {
+        vaccination_level= Math.min(100, vaccination_level + inLevel);
     }
 
     public void halfVaccination_level() {
@@ -46,20 +38,7 @@ public abstract class Containment {
         this.medication_level= Math.min(100, medication_level);
     }
 
-    public void halfMedication_level() {
-        medication_level = (int) Math.ceil(medication_level * 0.5f);
-        medication_level= Math.max(0, medication_level);
-    }
-
     //Trivial setters & getters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getProtection_level() {
         return protection_level;
     }

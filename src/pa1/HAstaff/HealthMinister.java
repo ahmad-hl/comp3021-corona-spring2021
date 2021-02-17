@@ -24,13 +24,13 @@ public class HealthMinister extends HealthAuthorityStaff {
     @Override
     public void developMedicationFacility(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.developMedicationFacility(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
     @Override
     public void buildMasksFactory(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.buildMasksFactory(player, city);
-        player.addPoint(getBonusPoints());
+        player.addPoints(getBonusPoints());
     }
 
 

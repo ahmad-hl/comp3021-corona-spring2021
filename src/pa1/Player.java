@@ -69,10 +69,10 @@ public class Player {
      *
      * @param increment
      */
-    public void addPoint(int increment) {
+    public void addPoints(int increment) {
         // TODO
         if (increment < 0)
-           addPoint(-increment);
+           addPoints(-increment);
         else
             points += increment;
     }
@@ -83,7 +83,7 @@ public class Player {
      *
      * @param decrement
      */
-    public void decreasePoint(int decrement) {
+    public void decreasePoints(int decrement) {
         // TODO
         points = Math.max(0, points - decrement);
     }
@@ -142,7 +142,7 @@ public class Player {
                         if (cont instanceof FaceMask) {
                             int index = containTechniques.indexOf(cont);
                             containTechniques.get(index).halfProtection_level();
-                            System.out.printf("Disaster: Fake face masks that halves the protection");
+                            System.out.println("Disaster: Fake face masks that halves the protection");
                             break;
                         }
                     }
@@ -152,20 +152,14 @@ public class Player {
                         if (cont instanceof Vaccination) {
                             int index = containTechniques.indexOf(cont);
                             containTechniques.get(index).halfVaccination_level();
-                            System.out.printf("Disaster: Weather/physical changes that halves the vaccination efficiency");
+                            System.out.println("Disaster: Weather/physical changes that halves the vaccination efficiency");
                             break;
                         }
                     }
                     break;
                 case 2:
-                    for (Containment cont:containTechniques) {
-                        if (cont instanceof Treatment) {
-                            int index = containTechniques.indexOf(cont);
-                            containTechniques.get(index).halfMedication_level();
-                            System.out.printf("Disaster: Destruction in medication facilities that halves medication");
-                            break;
-                        }
-                    }
+                    city.setMedicationFacilityOutOfService();
+                    System.out.println("Disaster: Medication facility is out of service");
                     break;
             }
         }

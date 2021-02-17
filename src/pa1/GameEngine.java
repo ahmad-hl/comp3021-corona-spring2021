@@ -102,7 +102,10 @@ public class GameEngine {
             player.computeNewInfectedCases();
             //update player's points
             if(player.getCity().getNumNewCases() == 0 || player.getCity().getInfectedCases() == 0)
-                player.addPoint(player.getPoints() * 2);
+                player.addPoints(player.getPoints() * 2);
+            if(player.getCity().isGreaterNewCases())
+                player.decreasePoints(player.getPoints()/ 3);
+
             gameMap.printPlayerInfo(player);
 
         }
