@@ -1,4 +1,4 @@
-package pa1.haStaff;
+package pa1.HAstaff;
 
 
 import pa1.City;
@@ -16,12 +16,19 @@ import pa1.util.Constants;
 public abstract class HealthAuthorityStaff {
 
     // Attributes
+    protected final int leadership, medicine, experience;
     private boolean isReady = false;
 
     /**
-     * Initializes the attributes of a minister
+     * Initializes the attributes of a HAstaff
+     * @param leadership
+     * @param medicine
+     * @param experience
      */
-    public HealthAuthorityStaff() {
+    public HealthAuthorityStaff(int leadership, int medicine, int experience) {
+        this.leadership = leadership;
+        this.medicine = medicine;
+        this.experience = experience;
     }
 
     /**
@@ -46,6 +53,10 @@ public abstract class HealthAuthorityStaff {
     public void endTurn() {
         // TODO
         isReady = false;
+    }
+
+    protected int getBonusPoints(){
+        return 0;
     }
 
     /**
@@ -322,7 +333,7 @@ public abstract class HealthAuthorityStaff {
     @Override
     public String toString() {
         // TODO
-        String toStr = String.format("HAStaff | %s", isReady() ? "READY" : "DONE");
+        String toStr = String.format("HAStaff | %s, leadership %d, medicine %d, experience %d", isReady() ? "READY" : "DONE",leadership, medicine, experience);
         return toStr;
     }
 }

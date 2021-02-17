@@ -3,10 +3,11 @@ package pa1.util;
 
 import pa1.City;
 import pa1.Player;
-import pa1.haStaff.ChiefExecutive;
-import pa1.haStaff.HealthAuthorityStaff;
-import pa1.haStaff.Epidemiologist;
-import pa1.haStaff.HealthMinister;
+import pa1.containment.Containment;
+import pa1.HAstaff.ChiefExecutive;
+import pa1.HAstaff.HealthAuthorityStaff;
+import pa1.HAstaff.Epidemiologist;
+import pa1.HAstaff.HealthMinister;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -54,17 +55,20 @@ public class GameMap {
                 for (int m = 0; m < 3; m++) { //numMinisters = 3
                     tokens = in.readLine().split(" ");
                     String type = tokens[0];
+                    int leadership = Integer.parseInt(tokens[1]);
+                    int medicine = Integer.parseInt(tokens[2]);
+                    int experience = Integer.parseInt(tokens[3]);
 
                     HealthAuthorityStaff healthAuthorityStaff = null;
                     switch (type.toLowerCase()) {
                         case "healthminister":
-                            healthAuthorityStaff = new HealthMinister();
+                            healthAuthorityStaff = new HealthMinister(leadership,medicine,experience );
                             break;
                         case "chiefexecutive":
-                            healthAuthorityStaff = new ChiefExecutive();
+                            healthAuthorityStaff = new ChiefExecutive(leadership,medicine,experience);
                             break;
                         case "epidemiologist":
-                            healthAuthorityStaff = new Epidemiologist();
+                            healthAuthorityStaff = new Epidemiologist(leadership,medicine,experience);
                             break;
                         default:
                             break;
@@ -75,6 +79,38 @@ public class GameMap {
 
                 players.add(player);
                 in.readLine();
+            }
+        }
+    }
+
+    /**
+     * Print player's info, city info, and HAstaff
+     */
+    public void printPlayerInfo(Player player){
+        System.out.println(player);
+        System.out.printf("HealthAuthorityStaff:");
+        for (HealthAuthorityStaff healthAuthorityStaff :  player.getHAStaffs()) {
+            System.out.printf("\t %s \n", healthAuthorityStaff);
+        }
+    }
+
+    /**
+     * Print players' info including city info
+     */
+    public void printPlayersInfo(){
+        for (Player player :  players) {
+            printPlayerInfo(player);
+        }
+    }
+
+    /**
+     * Print players' containment techniques
+     */
+    public void printContainmentTechs(){
+        for (Player player: players) {
+            System.out.printf("Player ( %s ) Containment Techniques:\n", player.getName());
+            for (Containment cont: player.getContainTechniques()) {
+                System.out.printf("\t%s",cont);
             }
         }
     }

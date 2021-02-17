@@ -2,12 +2,12 @@
 
 US 5000 100 0
 1 Newyork 20000000 10000 3000
-HealthMinister
-ChiefExecutive
-Epidemiologist
+HealthMinister 4 4 0
+ChiefExecutive 5 1 2
+Epidemiologist 0 5 4
 
 CN 5000 100 0
 1 HongKong 11000000 4000 3000
-HealthMinister
-ChiefExecutive
-Epidemiologist
+HealthMinister 4 4 0
+ChiefExecutive 5 1 2
+Epidemiologist 0 5 4

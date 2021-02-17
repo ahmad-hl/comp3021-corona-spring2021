@@ -5,7 +5,7 @@ import pa1.containment.FaceMask;
 import pa1.containment.Isolation;
 import pa1.containment.Vaccination;
 import pa1.exceptions.MedicalException;
-import pa1.haStaff.HealthAuthorityStaff;
+import pa1.HAstaff.HealthAuthorityStaff;
 import pa1.util.Constants;
 
 import java.util.ArrayList;
@@ -84,15 +84,6 @@ public class Player {
     public void decreasePoint(int decrement) {
         // TODO
         points = Math.max(0, points - decrement);
-    }
-
-    /**
-     * Decreases the player's budget by tourismIncome (travelbanned)
-     * Cap the value to 0.
-     */
-    public void deductTourismIncome() {
-        // TODO
-        budget = Math.max(0, budget - tourismIncome);
     }
 
     /**

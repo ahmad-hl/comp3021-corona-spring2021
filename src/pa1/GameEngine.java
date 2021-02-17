@@ -1,14 +1,12 @@
 package pa1;
 
-import pa1.containment.Containment;
 import pa1.exceptions.BudgetRunoutException;
 import pa1.exceptions.MedicalException;
-import pa1.haStaff.HealthAuthorityStaff;
+import pa1.HAstaff.HealthAuthorityStaff;
 import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.GameMap;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -25,24 +23,36 @@ public class GameEngine {
      *
      * @return
      */
-    public Player getWinner(Player frstPlayer , Player secPlayer ) {
+    public Player announceWinner( ) {
         // TODO
-        if (frstPlayer.getCity().getInfectedCases() < secPlayer.getCity().getInfectedCases())
-            return frstPlayer;
-        else if (frstPlayer.getCity().getInfectedCases() > secPlayer.getCity().getInfectedCases())
-            return secPlayer;
+        Player firstPlayer = gameMap.getPlayers().get(0);
+        Player secondPlayer = gameMap.getPlayers().get(1);
+        Player winner = null;
+
+        if (firstPlayer.getCity().getInfectedCases() < secondPlayer.getCity().getInfectedCases())
+            winner =  firstPlayer;
+        else if (firstPlayer.getCity().getInfectedCases() > secondPlayer.getCity().getInfectedCases())
+            winner = secondPlayer;
         else {
-            if( frstPlayer.getCity().getNumNewCases() < secPlayer.getCity().getNumNewCases())
-                return frstPlayer;
-            else if( frstPlayer.getCity().getNumNewCases() > secPlayer.getCity().getNumNewCases())
-                return secPlayer;
+            if( firstPlayer.getCity().getNumNewCases() < secondPlayer.getCity().getNumNewCases())
+                winner =  firstPlayer;
+            else if( firstPlayer.getCity().getNumNewCases() > secondPlayer.getCity().getNumNewCases())
+                winner = secondPlayer;
             else{
-                if( frstPlayer.getPoints() > secPlayer.getPoints())
-                    return frstPlayer;
-                else if( frstPlayer.getPoints() < secPlayer.getPoints())
-                    return secPlayer;
+                if( firstPlayer.getPoints() > secondPlayer.getPoints())
+                    winner = firstPlayer;
+                else if( firstPlayer.getPoints() < secondPlayer.getPoints())
+                    winner = secondPlayer;
             }
         }
+
+        if (winner == null)
+            System.out.printf("Players (%s has %d , %s has %d) are equal\n",firstPlayer.getName(), firstPlayer.getPoints(),
+                    secondPlayer.getName(), secondPlayer.getPoints() );
+        else
+            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
+
+
 
         return null;
     }
@@ -87,7 +97,10 @@ public class GameEngine {
 
             //Compute new infected cases & update total cases
             player.computeNewInfectedCases();
-            printPlayerInfo(player);
+            //update player's points
+            if(player.getCity().getNumNewCases() == 0 || player.getCity().getInfectedCases() == 0)
+                player.addPoint(player.getPoints() * 2);
+            gameMap.printPlayerInfo(player);
         }
     }
 
@@ -127,15 +140,6 @@ public class GameEngine {
         }
     }
 
-    public void printContTechs(){
-        for (Player player: gameMap.getPlayers()) {
-            System.out.printf("Player ( %s ) Containment Techniques:\n", player.getName());
-            for (Containment cont: player.getContainTechniques()) {
-                System.out.printf("\t%s",cont);
-            }
-        }
-    }
-
     private void processPlayerCommand(int command, Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws NoEnoughBudgetException, BudgetRunoutException {
 
         switch (command) {
@@ -162,29 +166,6 @@ public class GameEngine {
         }
     }
 
-    private static void printPlayerInfo(Player player){
-        System.out.println(player);
-        System.out.printf("HealthAuthorityStaff:");
-        for (HealthAuthorityStaff healthAuthorityStaff :  player.getHAStaffs()) {
-            System.out.printf("\t %s \n", healthAuthorityStaff);
-        }
-    }
-    private static void printPlayersInfo(List<Player> players){
-        for (Player player :  players) {
-            printPlayerInfo(player);
-        }
-    }
-
-    private static void findWinner(GameEngine game ){
-        Player firstPlayer = game.gameMap.getPlayers().get(0);
-        Player secondPlayer = game.gameMap.getPlayers().get(1);
-        Player winner = game.getWinner(firstPlayer, secondPlayer);
-        if (winner == null)
-            System.out.printf("Players (%s has %d , %s has %d) are equal\n",firstPlayer.getName(), firstPlayer.getPoints(),
-                    secondPlayer.getName(), secondPlayer.getPoints() );
-        else
-            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
-    }
 
     public static void main(String[] args) {
         GameEngine game = new GameEngine();
@@ -192,7 +173,7 @@ public class GameEngine {
         try {
             game.gameMap.loadPlayers("players.txt");
             game.gameMap.getPlayers().forEach(Player::toString);
-            printPlayersInfo(game.gameMap.getPlayers());
+            game.gameMap.printPlayersInfo();
 
             int i =0;
             while (i<10) {
@@ -209,7 +190,7 @@ public class GameEngine {
         } catch (NoEnoughBudgetException e) {
             System.out.printf("%s: %s\n",e, e.getMessage());
         } finally {
-            findWinner(game);
+            game.announceWinner();
         }
     }
 }
