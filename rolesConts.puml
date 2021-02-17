@@ -8,7 +8,7 @@ experience
 isReady
 
 getBonusPoints()
-buildHospital()
+developMedicationFacility()
 buildFMaskFactory()
 upgradeFMaskQuality()
 banTravel()
@@ -22,7 +22,7 @@ banTravel()
 }
 class HealthMinister{
 getBonusPoints()
-buildHospital()
+developMedicationFacility()
 buildFMaskFactory()
 }
 class Epidemiologist{
