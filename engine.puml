@@ -16,7 +16,7 @@ List<Containment> contTechniques
 name
 budget
 tourismIncome
-points;
+points
 City city
 }
 
