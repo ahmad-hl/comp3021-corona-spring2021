@@ -3,7 +3,7 @@ package pa1.util;
 public class Constants {
 
     //Costs
-    public final static int BUILD_HOSPITAL_COST = 500;
+    public final static int MEDICATION_FACILITY_COST = 500;
 
     public final static int BUILD_MASK_FACTORY_COST = 100;
     public final static int UPGRADE_MASK_QUALITY_COST = 50;
@@ -22,7 +22,7 @@ public class Constants {
 
     //others
     public final static int MAX_LEVEL = 100;
-    public final static int HOSPITAL_CAPACITY = 5000; //#Patients
+    public final static int MEDICATION_FACILITY_CAPACITY = 5000; //#Patients
     public final static int MIN_ALLOWED_BUDGET = 51;
 
 }

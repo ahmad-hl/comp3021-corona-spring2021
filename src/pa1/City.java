@@ -24,8 +24,7 @@ public class City {
     private List<Integer> newCases;
 
     // Improvements
-    private int hospitals;
-    private boolean vaccineAvailable;
+    private int medicationFacilities;
 
     public City(int id, String name, int population,boolean travelBanned, int infectedCases, int recoveredCases) {
         this.id = id;
@@ -40,9 +39,9 @@ public class City {
     /**
      * Adds number of hospitals by one
      */
-    public void addHospital() {
+    public void addMedicationFacilities() {
         // TODO
-        hospitals++;
+        medicationFacilities++;
     }
 
     /**
@@ -91,15 +90,6 @@ public class City {
         travelBanned = val;
     }
 
-    /**
-     * set vaccineAvailable to a value
-     * @param val
-     */
-    public void setVaccineAvailable(boolean val) {
-        // TODO
-        vaccineAvailable = val;
-    }
-
     public void setNumNewCases(int numNewCases) {
         this.numNewCases = numNewCases;
     }
@@ -132,18 +122,14 @@ public class City {
         return recoveredCases;
     }
 
-    public int getHospitals() {
-        return hospitals;
-    }
-
-    public boolean isVaccineAvailable() {
-        return vaccineAvailable;
+    public int getMedicationFacilities() {
+        return medicationFacilities;
     }
 
     @Override
     public String toString() {
-        String toStr = String.format("%s | infectedCases %d | recoveredCases %d | newCases %d |  population: %d | # of hospitals: %d",
-                name, infectedCases, recoveredCases, numNewCases , population, hospitals);
+        String toStr = String.format("%s | infectedCases %d | recoveredCases %d | newCases %d |  population: %d | # of medication facilities: %d",
+                name, infectedCases, recoveredCases, numNewCases , population, medicationFacilities);
         return toStr;
     }
 

@@ -60,12 +60,12 @@ public abstract class HealthAuthorityStaff {
     }
 
     /**
-     * Build a hospital in the city
-     * 1. Get the cost of building a hospital
+     * Develop a medication facility in the city
+     * 1. Get the cost of developing a facility
      * 2. Check whether player has enough budget
      * 3. If not, throw an exception
      * 4. Subtract the cost from the player's budget
-     * 5. Add number of hospital in the city by one
+     * 5. Add number of facilities in the city by one
      * <p>
      * HINT:
      * @param player
@@ -73,16 +73,16 @@ public abstract class HealthAuthorityStaff {
      * @throws NoEnoughBudgetException
      * @throws BudgetRunoutException
      */
-    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
+    public void developMedicationFacility(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         // TODO
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
-        int hospitalCost = Constants.BUILD_HOSPITAL_COST;
-        boolean cantBuildHospital = hospitalCost > player.getBudget();
-        if (cantBuildHospital) throw new NoEnoughBudgetException(player, hospitalCost);
-        player.decreaseBudget(hospitalCost);
-        city.addHospital();
+        int facilityCost = Constants.MEDICATION_FACILITY_COST;
+        boolean cantDevelopFacility = facilityCost > player.getBudget();
+        if (cantDevelopFacility) throw new NoEnoughBudgetException(player, facilityCost);
+        player.decreaseBudget(facilityCost);
+        city.addMedicationFacilities();
 
         //update the medication level
         boolean alreadyExists = false;
@@ -98,14 +98,14 @@ public abstract class HealthAuthorityStaff {
             player.addContainmentTech(treat);
         }
 
-        //update medication level: medication level = #hospitals * capacity * 100/ #infected cases
+        //update medication level: medication level = #med facilities * capacity * 100/ #infected cases
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment) {
                 int index = player.getContainTechniques().indexOf(cont);
-                if (city.getInfectedCases() - city.getHospitals() * Constants.HOSPITAL_CAPACITY <= 0)
+                if (city.getInfectedCases() - city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY <= 0)
                     player.getContainTechniques().get(index).setMedication_level(100);
                 else {
-                    player.getContainTechniques().get(index).setMedication_level((city.getHospitals() * Constants.HOSPITAL_CAPACITY * 100) / city.getInfectedCases());
+                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getInfectedCases());
                 }
                 System.out.printf(" medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
             }
@@ -216,7 +216,6 @@ public abstract class HealthAuthorityStaff {
         if (cantDevelopVaccine) throw new NoEnoughBudgetException(player, developVaccineCost);
 
         //update the vaccination level
-        city.setVaccineAvailable(true);
         player.decreaseBudget(developVaccineCost);
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {

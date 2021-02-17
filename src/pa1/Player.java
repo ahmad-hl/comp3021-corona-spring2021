@@ -1,15 +1,13 @@
 package pa1;
 
-import pa1.containment.Containment;
-import pa1.containment.FaceMask;
-import pa1.containment.Isolation;
-import pa1.containment.Vaccination;
+import pa1.containment.*;
 import pa1.exceptions.MedicalException;
 import pa1.HAstaff.HealthAuthorityStaff;
 import pa1.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A class that represents a player in the game.
@@ -48,8 +46,8 @@ public class Player {
     public String toString() {
         String toStr = String.format("Player: %s | budget: %d | tourism income: %d | points: %d\n",
                 name, budget, tourismIncome, points);
-        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of hospitals:%d",
-        city.getName(), city.getInfectedCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getHospitals());
+        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of medication facilities %d",
+        city.getName(), city.getInfectedCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getMedicationFacilities());
         return toStr;
     }
 
@@ -122,6 +120,57 @@ public class Player {
         city.addNewCases(newInfectedCases);
         city.increaseInfectedCases(newInfectedCases);
     }
+
+    /**
+     * Unpredicted disasters at the end of turn.
+     * There are two types of disasters, that affect both protection level, vaccination_level, and medical level.
+     * A disaster happens when disasterOccured <= 0.2, it halves the level.
+     * Otherwise the level is left unchanged
+     * <p>
+     * disasterType [0: Fake face masks, 1: drop vaccination efficiency, 3: destruction of medication facility]
+     */
+    public void generateUnexpectedDistasters() {
+        // TODO
+        Random rand = new Random();
+        int disasterType = rand.nextInt(3);
+        boolean disasterOccured = Math.random() <= 0.4;
+
+        if (disasterOccured){
+            switch (disasterType) {
+                case 0:
+                    for (Containment cont:containTechniques) {
+                        if (cont instanceof FaceMask) {
+                            int index = containTechniques.indexOf(cont);
+                            containTechniques.get(index).halfProtection_level();
+                            System.out.printf("Disaster: Fake face masks that halves the protection");
+                            break;
+                        }
+                    }
+                    break;
+                case 1:
+                    for (Containment cont:containTechniques) {
+                        if (cont instanceof Vaccination) {
+                            int index = containTechniques.indexOf(cont);
+                            containTechniques.get(index).halfVaccination_level();
+                            System.out.printf("Disaster: Weather/physical changes that halves the vaccination efficiency");
+                            break;
+                        }
+                    }
+                    break;
+                case 2:
+                    for (Containment cont:containTechniques) {
+                        if (cont instanceof Treatment) {
+                            int index = containTechniques.indexOf(cont);
+                            containTechniques.get(index).halfMedication_level();
+                            System.out.printf("Disaster: Destruction in medication facilities that halves medication");
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
 
     /**
      * Adds a containment technique.

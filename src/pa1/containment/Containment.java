@@ -25,17 +25,30 @@ public abstract class Containment {
 
 
     public void incrementProtection_level(int protection_level) {
-        int currProtectionLevel = this.protection_level;
-        this.protection_level = Math.min(100, currProtectionLevel + protection_level);
+        this.protection_level = Math.min(100, this.protection_level + protection_level);
+    }
+
+    public void halfProtection_level() {
+        protection_level = (int) Math.ceil(protection_level * 0.5f);
+        protection_level= Math.max(0, protection_level);
     }
 
     public void incrementVaccination_level(int vaccination_level) {
-        int currVaccinationLevel = this.vaccination_level;
-        this.vaccination_level= Math.min(100, currVaccinationLevel + vaccination_level);
+        this.vaccination_level= Math.min(100, this.vaccination_level + vaccination_level);
+    }
+
+    public void halfVaccination_level() {
+        vaccination_level = (int) Math.ceil(vaccination_level * 0.5f);
+        vaccination_level= Math.max(0, vaccination_level);
     }
 
     public void setMedication_level(int medication_level) {
         this.medication_level= Math.min(100, medication_level);
+    }
+
+    public void halfMedication_level() {
+        medication_level = (int) Math.ceil(medication_level * 0.5f);
+        medication_level= Math.max(0, medication_level);
     }
 
     //Trivial setters & getters

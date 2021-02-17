@@ -95,12 +95,16 @@ public class GameEngine {
                 healthAuthorityStaff.endTurn();
             }
 
-            //Compute new infected cases & update total cases
+
+            //Generate random disasters, then compute new infected cases & update total cases
+            player.generateUnexpectedDistasters();
+
             player.computeNewInfectedCases();
             //update player's points
             if(player.getCity().getNumNewCases() == 0 || player.getCity().getInfectedCases() == 0)
                 player.addPoint(player.getPoints() * 2);
             gameMap.printPlayerInfo(player);
+
         }
     }
 
@@ -126,7 +130,7 @@ public class GameEngine {
 
     private void selectAndPerformAction(Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws BudgetRunoutException, NoEnoughBudgetException {
         System.out.println("SELECT HAStaff ACTION");
-        System.out.println("\t[ 1]\tBuild Hospital");
+        System.out.println("\t[ 1]\t Develop Medication Facility");
         System.out.println("\t[ 2]\tBuild Mask Factory");
         System.out.println("\t[ 3]\tUpgrade Mask Quality");
         System.out.println("\t[ 4]\tBan Travel");
@@ -144,7 +148,7 @@ public class GameEngine {
 
         switch (command) {
             case 1:
-                healthAuthorityStaff.buildHospital(player, city);
+                healthAuthorityStaff.developMedicationFacility(player, city);
                 break;
             case 2:
                 healthAuthorityStaff.buildMasksFactory(player, city);

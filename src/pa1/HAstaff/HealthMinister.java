@@ -22,8 +22,8 @@ public class HealthMinister extends HealthAuthorityStaff {
     }
 
     @Override
-    public void buildHospital(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
-        super.buildHospital(player, city);
+    public void developMedicationFacility(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
+        super.developMedicationFacility(player, city);
         player.addPoint(getBonusPoints());
     }
 
