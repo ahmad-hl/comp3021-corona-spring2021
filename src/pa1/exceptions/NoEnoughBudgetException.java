@@ -35,6 +35,6 @@ public class NoEnoughBudgetException extends Exception {
 
     @Override
     public String toString() {
-        return String.format("NoEnoughBudgetException for player %", player.getName());
+        return String.format("NoEnoughBudgetException for player %s", player.getName());
     }
 }

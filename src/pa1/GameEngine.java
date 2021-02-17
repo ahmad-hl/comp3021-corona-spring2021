@@ -164,7 +164,7 @@ public class GameEngine {
 
     private static void printPlayerInfo(Player player){
         System.out.println(player);
-        System.out.printf("City: %s \nHealthAuthorityStaff:",player.getCity());
+        System.out.printf("HealthAuthorityStaff:");
         for (HealthAuthorityStaff healthAuthorityStaff :  player.getHAStaffs()) {
             System.out.printf("\t %s \n", healthAuthorityStaff);
         }

@@ -24,7 +24,7 @@ public class Player {
 
     // Attributes
     private final String name;
-    private float budget;
+    private int budget;
     private int tourismIncome;
     private int points;
 
@@ -33,7 +33,7 @@ public class Player {
     /**
      * Initializes member variables.
      */
-    public Player(String name, float budget, int tourismIncome, int points) {
+    public Player(String name, int budget, int tourismIncome, int points) {
         this.name = name;
         this.budget = budget;
         this.tourismIncome = tourismIncome;
@@ -42,8 +42,10 @@ public class Player {
 
     @Override
     public String toString() {
-        String toStr = String.format("Player: %s | budget: %f | tourism income: %d | points: %d",
+        String toStr = String.format("Player: %s | budget: %d | tourism income: %d | points: %d\n",
                 name, budget, tourismIncome, points);
+        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of hospitals:%d",
+        city.getName(), city.getInfectedCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getHospitals());
         return toStr;
     }
 
@@ -113,7 +115,7 @@ public class Player {
         int currVaccinationLevel = 0;
         for (Containment contTech: containTechniques) {
             if (contTech instanceof Isolation || contTech instanceof FaceMask)
-                currProtectionLevel += (int) 0.5 * contTech.getProtection_level();
+                currProtectionLevel += contTech.getProtection_level();
             else if (contTech instanceof Vaccination)
                 currVaccinationLevel = contTech.getVaccination_level();
         }
@@ -155,7 +157,7 @@ public class Player {
         return name;
     }
 
-    public float getBudget() {
+    public int getBudget() {
         return budget;
     }
 
