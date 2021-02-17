@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Exception
+class BudgetRunoutException{
+player
+playerBudget
+getMessage()
+}
+class MedicalException{
+population
+infectedCases
+getMessage()
+}
+class NoEnoughBudgetException{
+player
+playerBudget
+cost
+getMessage()
+}
+
+Exception <|-- BudgetRunoutException
+Exception <|-- NoEnoughBudgetException
+Exception <|-- MedicalException
+
+@enduml

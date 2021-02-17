@@ -32,6 +32,10 @@ public class Player {
 
     /**
      * Initializes member variables.
+     * @param name
+     * @param budget
+     * @param tourismIncome
+     * @param points
      */
     public Player(String name, int budget, int tourismIncome, int points) {
         this.name = name;
@@ -96,10 +100,12 @@ public class Player {
 
     /**
      * Compute new infected cases and updated total infected cases
-     * get current protection and vaccination level
-     * compute (IF) = .5*(100-protection level) + .5*(100-vaccination level)
-     * compute (new infected cases) = IF * infectedCases * population
-     * increase total infected cases
+     *
+     * 1. get current protection and vaccination level
+     * 2. compute: IF = .5*(100-protection level) + .5*(100-vaccination level)
+     * 3. compute: new infected cases = IF * infectedCases * population
+     * 4. add new cases to city's total infected cases
+     * @throws MedicalException
      */
     public void computeNewInfectedCases() throws MedicalException {
         int currProtectionLevel = 0;
