@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class City{
+population
+travelBanned
+infectedCases
+recoveredCases
+List<Integer> newCases
+medicationFacilities;
+}
+
+class Player{
+List<HealthAuthorityStaff> haStaffs
+List<Containment> contTechniques
+name
+budget
+tourismIncome
+points;
+City city
+}
+
+class GameEngine{
+announceWinner()
+processPlayerCommand()
+processPlayersTurn()
+}
+
+class GameMap{
+List<Player> players
+loadPlayers()
+printPlayers()
+}
+
+class ListContainment{
+List<Containment> contTechs
+}
+class ListHealthAuthorityStaff{
+List<HealthAuthorityStaff> haStaffs
+}
+
+Player <-- City
+Player <-- ListContainment
+Player <-- ListHealthAuthorityStaff
+GameEngine <-- GameMap
+
+@enduml

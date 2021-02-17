@@ -11,6 +11,9 @@ The util package has utility classes.
 #### Exceptions raised and handled
 ![alt text](exceptions.png)
 
+#### Game engine
+![alt text](engine.png)
+
 
 ## How does the game end?
 There are 3 winning and losing conditions that end the game:
