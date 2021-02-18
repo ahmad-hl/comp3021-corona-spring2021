@@ -118,7 +118,7 @@ public class Player {
         int newInfectedCases = (int) Math.ceil(increaseFactor * city.getActiveCases() );
         city.setNumNewCases(newInfectedCases);
         city.addNewCases(newInfectedCases);
-        city.increaseInfectedCases(newInfectedCases);
+        city.increaseActiveCases(newInfectedCases);
     }
 
     /**

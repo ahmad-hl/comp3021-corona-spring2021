@@ -60,10 +60,10 @@ public class City {
      *
      * @param increment
      */
-    public void increaseInfectedCases(int increment) throws MedicalException {
+    public void increaseActiveCases(int increment) throws MedicalException {
         // TODO
         if (increment < 0)
-            increaseInfectedCases(-increment);
+            increaseActiveCases(-increment);
         else if (activeCases+ increment >= population) {
             activeCases = Math.min(population, activeCases + increment);
             throw new MedicalException(population, activeCases);

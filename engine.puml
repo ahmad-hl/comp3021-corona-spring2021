@@ -7,11 +7,11 @@ class City{
 - -recoveredCases: int
 - -newCases: List<Integer>
 - -medicationFacilities: int
-+ +City(id: int, name: String, population: int,travelBanned: bool, infectedCases: int, recoveredCases: int)
++ +City(id: int, name: String, population: int,travelBanned: bool, activeCases: int, recoveredCases: int)
 + +addMedicationFacilities()
 + +setMedicationFacilityOutOfService()
-+ +increaseInfectedCases(incr: int) throws MedicalException
-+ +decreaseInfectedCases(decrement: int)
++ +increaseActiveCases(incr: int) throws MedicalException
++ +decreaseActiveCases(decrement: int)
 + +addNewCases(newCasesToAdd: int)
 + +setTravelBanned(val: bool)
 + +setNumNewCases(numNewCases: int)
