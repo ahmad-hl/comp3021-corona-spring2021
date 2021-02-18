@@ -36,8 +36,8 @@ public class HealthMinister extends HealthAuthorityStaff {
 
     /**
      * Example string representation:
-     * "HealthMinister | READY" - when isReady() == true
-     * "HealthMinister | DONE" - when isReady() == false
+     * "HealthMinister | READY, leadership, medicine, experience" - when isReady() == true
+     * "HealthMinister | DONE, leadership, medicine, experience" - when isReady() == false
      *
      * @return string representation of this object
      */

@@ -107,7 +107,7 @@ public abstract class HealthAuthorityStaff {
                 else {
                     player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getActiveCases());
                 }
-                System.out.printf(" medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
+                System.out.printf(" Medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
             }
         }
 
@@ -151,10 +151,8 @@ public abstract class HealthAuthorityStaff {
         //update protection level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
-                System.out.printf("Before Build Mask Factory: %s",cont);
                 int index = player.getContainTechniques().indexOf(cont);
                 player.getContainTechniques().get(index).incrementProtection_level(Constants.MASK_PROTECTION_Percentage);
-                System.out.printf(" After Build Mask Factory: %s\n",cont);
             }
         }
 
@@ -184,10 +182,8 @@ public abstract class HealthAuthorityStaff {
 
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
-                System.out.printf("Containment Before Upgrade Mask Quality: %s",cont);
                 int index = player.getContainTechniques().indexOf(cont);
                 player.getContainTechniques().get(index).incrementProtection_level(Constants.UPGRADE_MASK_PROTECTION_Percentage);
-                System.out.printf(" After Upgrade Mask Quality: %s\n",cont);
             }
         }
     }
@@ -232,10 +228,8 @@ public abstract class HealthAuthorityStaff {
         //update vaccination level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                System.out.printf("Before Develop Vaccine: %s",cont);
                 int index = player.getContainTechniques().indexOf(cont);
                 player.getContainTechniques().get(index).incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
-                System.out.printf(" After Develop Vaccine: %s\n",cont);
             }
         }
 
@@ -267,10 +261,8 @@ public abstract class HealthAuthorityStaff {
         player.decreaseBudget(upgradeVaccineCost);
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                System.out.printf("Before vaccine Upgrade: %s",cont);
                 int index = player.getContainTechniques().indexOf(cont);
                 player.getContainTechniques().get(index).incrementVaccination_level(Constants.UPGRADE_VACCINE_Percentage);
-                System.out.printf(" After vaccine Upgrade: %s\n",cont);
             }
         }
     }
@@ -324,8 +316,8 @@ public abstract class HealthAuthorityStaff {
 
     /**
      * Example string representation:
-     * "HAStaff | READY" - when isReady() == true
-     * "HAStaff | DONE" - when isReady() == false
+     * "HAStaff | READY, leadership, medicine, experience" - when isReady() == true
+     * "HAStaff | DONE, leadership, medicine, experience" - when isReady() == false
      *
      * @return string representation of this object
      */

@@ -9,7 +9,6 @@ public class NoEnoughBudgetException extends Exception {
 
     private final Player player;
     private final int cost;
-    private final float playerBudget;
     /**
      * Initializes member variables
      *
@@ -19,7 +18,6 @@ public class NoEnoughBudgetException extends Exception {
     public NoEnoughBudgetException(Player player, int cost) {
         this.player = player;
         this.cost = cost;
-        this.playerBudget = player.getBudget();
     }
 
     /**
@@ -30,7 +28,7 @@ public class NoEnoughBudgetException extends Exception {
     @Override
     public String getMessage() {
         return String.format("need %d cost, have only %f budget",
-                cost, playerBudget);
+                cost, player.getBudget());
     }
 
     @Override

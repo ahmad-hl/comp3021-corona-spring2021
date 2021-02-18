@@ -37,8 +37,8 @@ public class Epidemiologist extends HealthAuthorityStaff {
 
     /**
      * Example string representation:
-     * "Epidemiologist | READY" - when isReady() == true
-     * "Epidemiologist | DONE" - when isReady() == false
+     * "Epidemiologist | READY, leadership, medicine, experience" - when isReady() == true
+     * "Epidemiologist | DONE, leadership, medicine, experience" - when isReady() == false
      *
      * @return string representation of this object
      */

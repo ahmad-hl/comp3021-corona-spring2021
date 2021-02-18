@@ -6,7 +6,6 @@ class Exception{
 }
 class BudgetRunoutException{
 - -player: Player
-- -playerBudget: int
 + +BudgetRunoutException(player: Player)
 + +getMessage(): String
 + +toString(): String
@@ -19,7 +18,6 @@ class MedicalException{
 }
 class NoEnoughBudgetException{
 - -player: Player
-- -playerBudget: int
 - -cost: int
 + +getMessage(): String
 + +toString(): String

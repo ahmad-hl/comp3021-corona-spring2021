@@ -7,7 +7,6 @@ import pa1.Player;
  */
 public class MedicalException extends Exception {
 
-    private Player player = null;
     private final int population;
     private final int activeCases;
 

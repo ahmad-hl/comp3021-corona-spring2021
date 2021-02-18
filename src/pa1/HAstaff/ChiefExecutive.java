@@ -24,8 +24,8 @@ public class ChiefExecutive extends HealthAuthorityStaff {
 
     /**
      * Example string representation:
-     * "ChiefExecutive | READY" - when isReady() == true
-     * "ChiefExecutive | DONE" - when isReady() == false
+     * "ChiefExecutive | READY, leadership, medicine, experience" - when isReady() == true
+     * "ChiefExecutive | DONE, leadership, medicine, experience" - when isReady() == false
      *
      * @return string representation of this object
      */
