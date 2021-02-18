@@ -17,14 +17,13 @@ The util package has utility classes.
 ## How does the game end?
 There are 3 winning and losing conditions that end the game:
 ### 1. The player loses the game in the following conditions:
-- When the city/country under a player’s control has infected cases = population. 
-- The system game engine raises MedicalException.
+- When the city/country under a player’s control has infected cases = population. The game engine raises MedicalException.
 - The player runs out of budget.
-- The system game engine raises NoMoreBudgetException.
+- The game engine raises NoMoreBudgetException.
 ### 2. The player wins the game  
 When the city/country under a player’s control has 0 active cases and 0 new infected cases. If the two players have 0 active cases and 0 new infected, the game engine computes the points of each player and decides the winner based on the one with greater points.
 
-Finally, the system announce the winner according to active cases or new infected cases or players points. 
+Once the system witnesses losing or winning conditions, it announces the winner according to active cases and/or new infected cases and/or players points. 
 
 ## Disasters
 we can have 3 disasters that would affect the three levels: Protection_level, Vaccination_level, medical_level. 
