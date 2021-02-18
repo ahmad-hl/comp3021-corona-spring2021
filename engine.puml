@@ -132,7 +132,8 @@ class FaceMask{
 + +getProtection_level(): int
 }
 class Isolation{
-getProtection_level(): int
++ +Isolation()
++ +getProtection_level(): int
 }
 class Treatment{
 + +Treatment()
