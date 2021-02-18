@@ -9,7 +9,7 @@ public class MedicalException extends Exception {
 
     private Player player = null;
     private final int population;
-    private final int infectedCases;
+    private final int activeCases;
     /**
      * Initializes member variables
      *
@@ -18,18 +18,18 @@ public class MedicalException extends Exception {
     public MedicalException(Player player) {
         this.player = player;
         this.population = player.getCity().getPopulation();
-        this.infectedCases = player.getCity().getInfectedCases();
+        this.activeCases = player.getCity().getActiveCases();
     }
 
     /**
      * Initializes member variables
      *
      * @param population
-     * @param infectedCases
+     * @param activeCases
      */
-    public MedicalException(int population, int infectedCases) {
+    public MedicalException(int population, int activeCases) {
         this.population = population;
-        this.infectedCases = infectedCases;
+        this.activeCases = activeCases;
     }
 
     /**
@@ -39,8 +39,8 @@ public class MedicalException extends Exception {
      */
     @Override
     public String getMessage() {
-        return String.format("Infected cases %d reached city's population %d",
-                infectedCases, population);
+        return String.format("activeCases cases %d reached city's population %d",
+                activeCases, population);
     }
 
     @Override

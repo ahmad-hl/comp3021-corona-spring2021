@@ -5,14 +5,13 @@ We aim to develop a system as a game to fight Coronavirus.
 ### Class Diagram of the main packages
 The system contains primarly three packages: containment, roles and exception. 
 The util package has utility classes. 
-#### Roles and containment techniques 
-![alt text](roles_conts.png)
+#### Roles and containment techniques and Game engine
+![alt text](engine.png)
 
 #### Exceptions raised and handled
 ![alt text](exceptions.png)
 
-#### Game engine
-![alt text](engine.png)
+
 
 
 ## How does the game end?
@@ -23,9 +22,9 @@ There are 3 winning and losing conditions that end the game:
 - The player runs out of budget.
 - The system game engine raises NoMoreBudgetException.
 ### 2. The player wins the game  
-When the city/country under a player’s control has 0 infected cases and 0 new infected cases. If the two players have 0 infected cases and 0 new infected, the game engine computes the points of each player and decides the winner based on the one with greater points.
+When the city/country under a player’s control has 0 active cases and 0 new infected cases. If the two players have 0 active cases and 0 new infected, the game engine computes the points of each player and decides the winner based on the one with greater points.
 
-Finally, the system announce the winner according to infected cases or (if equal) new infected cases or (if equal) players points. 
+Finally, the system announce the winner according to active cases or new infected cases or players points. 
 
 ## Disasters
 we can have 3 disasters that would affect the three levels: Protection_level, Vaccination_level, medical_level. 

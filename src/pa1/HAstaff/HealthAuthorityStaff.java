@@ -102,10 +102,10 @@ public abstract class HealthAuthorityStaff {
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment) {
                 int index = player.getContainTechniques().indexOf(cont);
-                if (city.getInfectedCases() - city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY <= 0)
+                if (city.getActiveCases() - city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY <= 0)
                     player.getContainTechniques().get(index).setMedication_level(100);
                 else {
-                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getInfectedCases());
+                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getActiveCases());
                 }
                 System.out.printf(" medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
             }

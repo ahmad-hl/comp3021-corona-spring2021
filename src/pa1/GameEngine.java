@@ -29,9 +29,9 @@ public class GameEngine {
         Player secondPlayer = gameMap.getPlayers().get(1);
         Player winner = null;
 
-        if (firstPlayer.getCity().getInfectedCases() < secondPlayer.getCity().getInfectedCases())
+        if (firstPlayer.getCity().getActiveCases() < secondPlayer.getCity().getActiveCases())
             winner =  firstPlayer;
-        else if (firstPlayer.getCity().getInfectedCases() > secondPlayer.getCity().getInfectedCases())
+        else if (firstPlayer.getCity().getActiveCases() > secondPlayer.getCity().getActiveCases())
             winner = secondPlayer;
         else {
             if( firstPlayer.getCity().getNumNewCases() < secondPlayer.getCity().getNumNewCases())
@@ -50,7 +50,7 @@ public class GameEngine {
             System.out.printf("Players (%s has %d , %s has %d) are equal\n",firstPlayer.getName(), firstPlayer.getPoints(),
                     secondPlayer.getName(), secondPlayer.getPoints() );
         else
-            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getInfectedCases(), winner.getCity().getNumNewCases(), winner.getPoints());
+            System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getActiveCases(), winner.getCity().getNumNewCases(), winner.getPoints());
 
 
 
@@ -101,7 +101,7 @@ public class GameEngine {
 
             player.computeNewInfectedCases();
             //update player's points
-            if(player.getCity().getNumNewCases() == 0 || player.getCity().getInfectedCases() == 0)
+            if(player.getCity().getNumNewCases() == 0 || player.getCity().getActiveCases() == 0)
                 player.addPoints(player.getPoints() * 2);
             if(player.getCity().isGreaterNewCases())
                 player.decreasePoints(player.getPoints()/ 3);

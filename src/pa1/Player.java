@@ -47,7 +47,7 @@ public class Player {
         String toStr = String.format("Player: %s | budget: %d | tourism income: %d | points: %d\n",
                 name, budget, tourismIncome, points);
         toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of medication facilities %d",
-        city.getName(), city.getInfectedCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getMedicationFacilities());
+        city.getName(), city.getActiveCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getMedicationFacilities());
         return toStr;
     }
 
@@ -115,7 +115,7 @@ public class Player {
                 currVaccinationLevel = contTech.getVaccination_level();
         }
         double increaseFactor = 0.5 * (Constants.MAX_LEVEL - currProtectionLevel) + 0.5 * (Constants.MAX_LEVEL - currVaccinationLevel);
-        int newInfectedCases = (int) Math.ceil(increaseFactor * city.getInfectedCases() );
+        int newInfectedCases = (int) Math.ceil(increaseFactor * city.getActiveCases() );
         city.setNumNewCases(newInfectedCases);
         city.addNewCases(newInfectedCases);
         city.increaseInfectedCases(newInfectedCases);
@@ -133,7 +133,7 @@ public class Player {
         // TODO
         Random rand = new Random();
         int disasterType = rand.nextInt(3);
-        boolean disasterOccured = Math.random() <= 0.4;
+        boolean disasterOccured = rand.nextDouble() <= 0.4;
 
         if (disasterOccured){
             switch (disasterType) {

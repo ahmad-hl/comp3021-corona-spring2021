@@ -18,7 +18,7 @@ public class City {
     // Attributes
     private int population;
     private boolean travelBanned;
-    private int infectedCases;
+    private int activeCases;
     private int recoveredCases;
     private int numNewCases;
     private List<Integer> newCases;
@@ -26,12 +26,12 @@ public class City {
     // Improvements
     private int medicationFacilities;
 
-    public City(int id, String name, int population,boolean travelBanned, int infectedCases, int recoveredCases) {
+    public City(int id, String name, int population,boolean travelBanned, int activeCases, int recoveredCases) {
         this.id = id;
         this.name = name;
         this.population = population;
         this.travelBanned = travelBanned;
-        this.infectedCases = infectedCases;
+        this.activeCases = activeCases;
         this.recoveredCases = recoveredCases;
         this.newCases = new ArrayList<>();
     }
@@ -64,11 +64,11 @@ public class City {
         // TODO
         if (increment < 0)
             increaseInfectedCases(-increment);
-        else if (infectedCases+ increment >= population) {
-            infectedCases = Math.min(population, infectedCases + increment);
-            throw new MedicalException(population, infectedCases);
+        else if (activeCases+ increment >= population) {
+            activeCases = Math.min(population, activeCases + increment);
+            throw new MedicalException(population, activeCases);
         }
-        else infectedCases = infectedCases+ increment;
+        else activeCases = activeCases+ increment;
     }
 
     /**
@@ -82,7 +82,7 @@ public class City {
         if (decrement < 0)
             decreaseInfectedCases(-decrement);
         else {
-            infectedCases = Math.max(0, infectedCases - decrement);
+            activeCases = Math.max(0, activeCases - decrement);
             recoveredCases = Math.min(population, recoveredCases + decrement);
         }
     }
@@ -124,8 +124,8 @@ public class City {
         return travelBanned;
     }
 
-    public int getInfectedCases() {
-        return infectedCases;
+    public int getActiveCases() {
+        return activeCases;
     }
 
     public int getRecoveredCases() {
@@ -134,10 +134,6 @@ public class City {
 
     public int getMedicationFacilities() {
         return medicationFacilities;
-    }
-
-    public List<Integer> getNewCases() {
-        return newCases;
     }
 
     public boolean isGreaterNewCases(){
@@ -152,8 +148,8 @@ public class City {
 
     @Override
     public String toString() {
-        String toStr = String.format("%s | infectedCases %d | recoveredCases %d | newCases %d |  population: %d | # of medication facilities: %d",
-                name, infectedCases, recoveredCases, numNewCases , population, medicationFacilities);
+        String toStr = String.format("%s | activeCases %d | recoveredCases %d | newCases %d |  population: %d | # of medication facilities: %d",
+                name, activeCases, recoveredCases, numNewCases , population, medicationFacilities);
         return toStr;
     }
 }
