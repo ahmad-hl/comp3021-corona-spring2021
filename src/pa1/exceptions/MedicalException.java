@@ -10,16 +10,6 @@ public class MedicalException extends Exception {
     private Player player = null;
     private final int population;
     private final int activeCases;
-    /**
-     * Initializes member variables
-     *
-     * @param player
-     */
-    public MedicalException(Player player) {
-        this.player = player;
-        this.population = player.getCity().getPopulation();
-        this.activeCases = player.getCity().getActiveCases();
-    }
 
     /**
      * Initializes member variables

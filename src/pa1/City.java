@@ -77,10 +77,10 @@ public class City {
      *
      * @param decrement
      */
-    public void decreaseInfectedCases(int decrement) {
+    public void decreaseActiveCases(int decrement) {
         // TODO
         if (decrement < 0)
-            decreaseInfectedCases(-decrement);
+            decreaseActiveCases(-decrement);
         else {
             activeCases = Math.max(0, activeCases - decrement);
             recoveredCases = Math.min(population, recoveredCases + decrement);

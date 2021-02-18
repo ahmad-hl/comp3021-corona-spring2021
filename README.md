@@ -1,4 +1,4 @@
-# comp3021-corona-spring2021
+## comp3021 Corona Spring2021
 Implementing Java Polymorphism, Inheritance, exception raising and handling.
 We aim to develop a system as a game to fight Coronavirus.
 
@@ -10,8 +10,6 @@ The util package has utility classes.
 
 #### Exceptions raised and handled
 ![alt text](exceptions.png)
-
-
 
 
 ## How does the game end?
