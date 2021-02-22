@@ -106,8 +106,7 @@ public class GameEngine {
             if(player.getCity().isGreaterNewCases())
                 player.decreasePoints(player.getPoints()/ 3);
 
-            gameMap.printPlayerInfo(player);
-
+            System.out.println(player);
         }
     }
 
@@ -133,15 +132,16 @@ public class GameEngine {
 
     private void selectAndPerformAction(Player player, HealthAuthorityStaff healthAuthorityStaff, City city) throws BudgetRunoutException, NoEnoughBudgetException {
         System.out.println("SELECT HAStaff ACTION");
-        System.out.println("\t[ 1]\t Develop Medication Facility");
+        System.out.println("\t[ 1]\tDevelop Medication Facility");
         System.out.println("\t[ 2]\tBuild Mask Factory");
         System.out.println("\t[ 3]\tUpgrade Mask Quality");
         System.out.println("\t[ 4]\tBan Travel");
         System.out.println("\t[ 5]\tDevelop Vaccine");
         System.out.println("\t[ 6]\tUpgrade the Vaccine");
+        System.out.println("\t[ 7]\tLeft Travel Ban");
 
         while (true) {
-            int command = getSelection(1, 6, "action");
+            int command = getSelection(1, 7, "action");
             processPlayerCommand(command, player, healthAuthorityStaff, city);
             break;
         }
@@ -168,6 +168,9 @@ public class GameEngine {
             case 6:
                 healthAuthorityStaff.upgradeVaccine(player, city);
                 break;
+            case 7:
+                healthAuthorityStaff.leftTravelBan(player, city);
+                break;
             default:
                 break;
         }
@@ -180,12 +183,17 @@ public class GameEngine {
         try {
             game.gameMap.loadPlayers("players.txt");
             game.gameMap.getPlayers().forEach(Player::toString);
-            game.gameMap.printPlayersInfo();
 
             int i =0;
             while (i<10) {
                 game.processPlayersTurn();
                 i++;
+
+                //add tourism income to budget if travel is not banned
+                for (Player player: game.gameMap.getPlayers()) {
+                    if(!player.getCity().isTravelBanned())
+                        player.increaseBudget(player.getTourismIncome());
+                }
             }
 
         } catch (IOException e) {

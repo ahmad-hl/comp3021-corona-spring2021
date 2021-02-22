@@ -22,6 +22,12 @@ public class ChiefExecutive extends HealthAuthorityStaff {
         player.addPoints(getBonusPoints());
     }
 
+    @Override
+    public void leftTravelBan(Player player, City city) {
+        super.leftTravelBan(player, city);
+        player.addPoints(getBonusPoints());
+    }
+
     /**
      * Example string representation:
      * "ChiefExecutive | READY, leadership, medicine, experience" - when isReady() == true

@@ -107,7 +107,6 @@ public abstract class HealthAuthorityStaff {
                 else {
                     player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getActiveCases());
                 }
-                System.out.printf(" Medication level: %d\n", player.getContainTechniques().get(index).getMedication_level());
             }
         }
 
@@ -286,7 +285,7 @@ public abstract class HealthAuthorityStaff {
 
         if (cantBanTravel) throw new NoEnoughBudgetException(player, player.getTourismIncome());
 
-        //update the vaccination level
+        //update the protection level
         player.decreaseBudget(player.getTourismIncome());
         city.setTravelBanned(true);
 
@@ -311,7 +310,28 @@ public abstract class HealthAuthorityStaff {
                 System.out.printf(" After TravelBan: %s\n",cont);
             }
         }
+    }
 
+
+    /**
+     * Left the travel ban
+     * 1. update city's travelBanned to false
+     * <p>
+     * HINT:
+     * @param player
+     * @param city
+     */
+    public void leftTravelBan(Player player, City city) {
+        // TODO
+        //update the protection level
+        player.decreaseBudget(player.getTourismIncome());
+        city.setTravelBanned(false);
+
+        for (Containment cont:player.getContainTechniques()) {
+            if (cont instanceof Isolation){
+                player.removeContainmentTech(cont);
+            }
+        }
     }
 
     /**

@@ -20,6 +20,10 @@ public abstract class Containment {
         protection_level = Math.min(100, protection_level + inLevel);
     }
 
+    public void decrementProtection_level(int inLevel) {
+        protection_level = Math.max(0, protection_level - inLevel);
+    }
+
     public void halfProtection_level() {
         protection_level = (int) Math.ceil(protection_level * 0.5f);
         protection_level= Math.max(0, protection_level);
@@ -39,6 +43,7 @@ public abstract class Containment {
     }
 
     //Trivial setters & getters
+
     public int getProtection_level() {
         return protection_level;
     }
@@ -49,6 +54,10 @@ public abstract class Containment {
 
     public int getVaccination_level() {
         return vaccination_level;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

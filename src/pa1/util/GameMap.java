@@ -83,39 +83,6 @@ public class GameMap {
         }
     }
 
-    /**
-     * Print player's info, city info, and HAstaff
-     */
-    public void printPlayerInfo(Player player){
-        System.out.println(player);
-        System.out.printf("HealthAuthorityStaff:");
-        for (HealthAuthorityStaff healthAuthorityStaff :  player.getHAStaffs()) {
-            System.out.printf("\t %s \n", healthAuthorityStaff);
-        }
-    }
-
-    /**
-     * Print players' info including city info
-     */
-    public void printPlayersInfo(){
-        for (Player player :  players) {
-            printPlayerInfo(player);
-        }
-    }
-
-    /**
-     * Print players' containment techniques
-     */
-    public void printContainmentTechs(){
-        for (Player player: players) {
-            System.out.printf("Player ( %s ) Containment Techniques:\n", player.getName());
-            for (Containment cont: player.getContainTechniques()) {
-                System.out.printf("\t%s",cont);
-            }
-        }
-    }
-
-
     public List<Player> getPlayers() {
         return players;
     }

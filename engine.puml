@@ -7,7 +7,7 @@ class City{
 - -recoveredCases: int
 - -newCases: List<Integer>
 - -medicationFacilities: int
-+ +City(id: int, name: String, population: int,travelBanned: bool, activeCases: int, recoveredCases: int)
++ +City(id: int, name: String, population: int,travelBanned: bool, active: int, recovered: int)
 + +addMedicationFacilities()
 + +setMedicationFacilityOutOfService()
 + +increaseActiveCases(incr: int) throws MedicalException
@@ -39,6 +39,7 @@ class Player{
 + +Player(name: String, budget: int, tourismIncome: int, points: int)
 + +toString(): String
 + +decreaseBudget(decrement: int)
++ +increaseBudget(increment: int)
 + +addPoints(increment: int)
 + +decreasePoints(decrement: int)
 + +hasReadyHAStaff(): boolean
@@ -71,8 +72,6 @@ class GameMap{
 - -players: List<Player>
 + +getPlayers(): List<Player>
 + +loadPlayers()
-+ +printPlayers(player: Player)
-+ +printPlayersInfo()
 }
 
 abstract class HealthAuthorityStaff{
@@ -89,6 +88,7 @@ abstract class HealthAuthorityStaff{
 + +buildMasksFactory(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +upgradeFMaskQuality(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +banTravel(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +leftTravelBan(player: Player, city: City)
 + +developVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +upgradeVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +toString() : String
@@ -97,6 +97,7 @@ abstract class HealthAuthorityStaff{
 class ChiefExecutive{
 # #getBonusPoints(): int
 + +banTravel(player: Player, city: City)
++ +leftTravelBan(player: Player, city: City)
 }
 class HealthMinister{
 # #getBonusPoints(): int

@@ -46,13 +46,36 @@ public class Player {
     public String toString() {
         String toStr = String.format("Player: %s | budget: %d | tourism income: %d | points: %d\n",
                 name, budget, tourismIncome, points);
-        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of medication facilities %d",
+        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of medication facilities %d\n",
         city.getName(), city.getActiveCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getMedicationFacilities());
+
+        String contNames = "";
+        int protection_level = 0;
+        int vaccination_level = 0;
+        int medication_level = 0;
+        for (Containment cont:containTechniques) {
+                contNames += cont.getName() +",";
+            if (cont instanceof FaceMask || cont instanceof Isolation) {
+                protection_level += cont.getProtection_level();
+            }else if (cont instanceof Vaccination) {
+                vaccination_level = cont.getVaccination_level();
+            } else if (cont instanceof Treatment) {
+                medication_level = cont.getMedication_level();
+            }
+        }
+        toStr += String.format("Health Authority Staff:\n");
+        for (HealthAuthorityStaff healthAuthorityStaff :  getHAStaffs()) {
+            toStr += String.format("\t %s \n", healthAuthorityStaff);
+        }
+
+        toStr += String.format("Containments: %s | protection level: %d | vaccination level: %d | medication level: %d ",
+                contNames, protection_level, vaccination_level, medication_level);
+
         return toStr;
     }
 
     /**
-     * Decreases the player's gold
+     * Decreases the player's budget
      * Cap the value to 0.
      *
      * @param decrement
@@ -61,6 +84,21 @@ public class Player {
         // TODO
         budget = Math.max(0, budget - decrement);
     }
+
+    /**
+     * Increase the player's budget
+     * Cap the value to 0.
+     *
+     * @param increment
+     */
+    public void increaseBudget(int increment) {
+        // TODO
+        if (increment < 0)
+            increaseBudget(-increment);
+        else
+            budget += increment;
+    }
+
 
 
     /**
@@ -176,11 +214,22 @@ public class Player {
         containTechniques.add(cont);
     }
 
+    /**
+     * Removes a containment technique.
+     *
+     * @param cont
+     */
+    public void removeContainmentTech(Containment cont) {
+        // TODO
+        containTechniques.remove(cont);
+    }
+
     public void setCity(City city) {
         this.city = city;
     }
 
     // Trivial getters
+
     public List<HealthAuthorityStaff> getHAStaffs() {
         return healthAuthorityStaffs;
     }
@@ -212,4 +261,5 @@ public class Player {
     public int getPoints() {
         return points;
     }
+
 }
