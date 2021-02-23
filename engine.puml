@@ -5,17 +5,20 @@ class City{
 - -travelBanned: bool
 - -activeCases: int
 - -recoveredCases: int
-- -newCases: List<Integer>
+- -numNewCases: int
+- -numFormerCases: int
 - -medicationFacilities: int
+
 + +City(id: int, name: String, population: int,travelBanned: bool, active: int, recovered: int)
 + +addMedicationFacilities()
-+ +setMedicationFacilityOutOfService()
++ +decreaseMedicationFacility()
 + +increaseActiveCases(incr: int) throws MedicalException
 + +decreaseActiveCases(decrement: int)
-+ +addNewCases(newCasesToAdd: int)
 + +setTravelBanned(val: bool)
 + +setNumNewCases(numNewCases: int)
 + +getNumNewCases(): int
++ +setNumFormerCases(numFormerCases: int)
++ +getNumFormerCases(): int
 + +getId(): int
 + +getName(): String
 + +getPopulation(): int
@@ -23,8 +26,7 @@ class City{
 + +getActiveCases(): int
 + +getRecoveredCases(): int
 + +getMedicationFacilities(): int
-+ +getNewCases(): List<Integer>
-+ +isGreaterNewCases(): bool
++ +isNewCasesIncreasing(): bool
 + +toString(): String
 }
 
@@ -47,12 +49,15 @@ class Player{
 + +generateUnexpectedDistasters()
 + +addContainmentTech(cont: Containment)
 + +setCity(city: City)
++ +incrementProtection_level(level: int, cont: Containment)
++ +incrementVaccination_level(level: int, cont: Containment)
++ +halfProtection_level()
++ +halfVaccination_level()
 + +getHAStaffs(): List<HealthAuthorityStaff>
 + +getCity(): City
 + +getContainTechniques(): List<Containment>
 + +getName(): String
 + +getBudget(): int
-+ +getHealthAuthorityStaffs(): List<HealthAuthorityStaff>
 + +getTourismIncome(): int
 + +getPoints(): int
 }
@@ -120,14 +125,15 @@ abstract class Containment{
 # #protection_level
 # #medication_level
 # #vaccination_level
-+ +incrementProtection_level(level: int)
-+ +incrementVaccination_level(level: int)
-+ +setMedication_level(level: int)
 + +getProtection_level(): int
 + +getMedication_level(): int
 + +getVaccination_level(): int
++ +setProtection_level(level: int)
++ +setMedication_level(level: int)
++ +setVaccination_level(level: int)
 + +toString() : String
 }
+
 class FaceMask{
 + +FaceMask()
 + +getProtection_level(): int

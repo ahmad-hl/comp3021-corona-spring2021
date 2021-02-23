@@ -83,6 +83,7 @@ public abstract class HealthAuthorityStaff {
         if (cantDevelopFacility) throw new NoEnoughBudgetException(player, facilityCost);
         player.decreaseBudget(facilityCost);
         city.addMedicationFacilities();
+        city.decreaseActiveCases(Constants.MEDICATION_FACILITY_CAPACITY );
 
         //update the medication level
         boolean alreadyExists = false;
@@ -98,14 +99,14 @@ public abstract class HealthAuthorityStaff {
             player.addContainmentTech(treat);
         }
 
-        //update medication level: medication level = #med facilities * capacity * 100/ #infected cases
+        //update medication level: medication level = #med facilities * capacity * 100/ #recovered cases
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment) {
                 int index = player.getContainTechniques().indexOf(cont);
-                if (city.getActiveCases() - city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY <= 0)
+                if (city.getActiveCases() <= 0)
                     player.getContainTechniques().get(index).setMedication_level(100);
                 else {
-                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getActiveCases());
+                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getRecoveredCases());
                 }
             }
         }
@@ -150,8 +151,7 @@ public abstract class HealthAuthorityStaff {
         //update protection level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementProtection_level(Constants.MASK_PROTECTION_Percentage);
+                player.incrementProtection_level(Constants.MASK_PROTECTION_Percentage,cont);
             }
         }
 
@@ -181,8 +181,7 @@ public abstract class HealthAuthorityStaff {
 
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementProtection_level(Constants.UPGRADE_MASK_PROTECTION_Percentage);
+                player.incrementProtection_level(Constants.UPGRADE_MASK_PROTECTION_Percentage,cont);
             }
         }
     }
@@ -227,8 +226,7 @@ public abstract class HealthAuthorityStaff {
         //update vaccination level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage);
+                player.incrementVaccination_level(Constants.DEVELOP_VACCINE_Percentage,cont);
             }
         }
 
@@ -260,8 +258,7 @@ public abstract class HealthAuthorityStaff {
         player.decreaseBudget(upgradeVaccineCost);
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Vaccination){
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementVaccination_level(Constants.UPGRADE_VACCINE_Percentage);
+                player.incrementVaccination_level(Constants.UPGRADE_VACCINE_Percentage,cont);
             }
         }
     }
@@ -304,10 +301,7 @@ public abstract class HealthAuthorityStaff {
         //update protection level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Isolation){
-                System.out.printf("Containment Before TravelBan: %s",cont);
-                int index = player.getContainTechniques().indexOf(cont);
-                player.getContainTechniques().get(index).incrementProtection_level(Constants.TRAVELBAN_PROTECTION_Percentage);
-                System.out.printf(" After TravelBan: %s\n",cont);
+                player.incrementProtection_level(Constants.TRAVELBAN_PROTECTION_Percentage, cont);
             }
         }
     }
@@ -324,7 +318,7 @@ public abstract class HealthAuthorityStaff {
     public void leftTravelBan(Player player, City city) {
         // TODO
         //update the protection level
-        player.decreaseBudget(player.getTourismIncome());
+        player.increaseBudget(player.getTourismIncome());
         city.setTravelBanned(false);
 
         for (Containment cont:player.getContainTechniques()) {

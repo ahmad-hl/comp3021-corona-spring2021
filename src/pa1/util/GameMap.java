@@ -3,8 +3,7 @@ package pa1.util;
 
 import pa1.City;
 import pa1.Player;
-import pa1.containment.Containment;
-import pa1.HAstaff.ChiefExecutive;
+import pa1.HAstaff.ChiefExecutiveOfHA;
 import pa1.HAstaff.HealthAuthorityStaff;
 import pa1.HAstaff.Epidemiologist;
 import pa1.HAstaff.HealthMinister;
@@ -65,7 +64,7 @@ public class GameMap {
                             healthAuthorityStaff = new HealthMinister(leadership,medicine,experience );
                             break;
                         case "chiefexecutive":
-                            healthAuthorityStaff = new ChiefExecutive(leadership,medicine,experience);
+                            healthAuthorityStaff = new ChiefExecutiveOfHA(leadership,medicine,experience);
                             break;
                         case "epidemiologist":
                             healthAuthorityStaff = new Epidemiologist(leadership,medicine,experience);

@@ -76,7 +76,9 @@ public class GameEngine {
         turns++;
         for (Player player :  gameMap.getPlayers()) {
 
-            player.getHAStaffs().forEach(HealthAuthorityStaff::beginTurn);
+            for (HealthAuthorityStaff haStaff: player.getHAStaffs()) {
+                haStaff.beginTurn();
+            }
 
             while (player.hasReadyHAStaff()) {
                 System.out.print("\n\n");
@@ -95,7 +97,6 @@ public class GameEngine {
                 healthAuthorityStaff.endTurn();
             }
 
-
             //Generate random disasters, then compute new infected cases & update total cases
             player.generateUnexpectedDistasters();
 
@@ -103,7 +104,7 @@ public class GameEngine {
             //update player's points
             if(player.getCity().getNumNewCases() == 0 || player.getCity().getActiveCases() == 0)
                 player.addPoints(player.getPoints() * 2);
-            if(player.getCity().isGreaterNewCases())
+            if(player.getCity().isNewCasesIncreasing())
                 player.decreasePoints(player.getPoints()/ 3);
 
             System.out.println(player);
@@ -182,12 +183,8 @@ public class GameEngine {
 
         try {
             game.gameMap.loadPlayers("players.txt");
-            game.gameMap.getPlayers().forEach(Player::toString);
-
-            int i =0;
-            while (i<10) {
+            while (true) {
                 game.processPlayersTurn();
-                i++;
 
                 //add tourism income to budget if travel is not banned
                 for (Player player: game.gameMap.getPlayers()) {

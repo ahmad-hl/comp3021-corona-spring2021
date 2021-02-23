@@ -21,7 +21,7 @@ public class City {
     private int activeCases;
     private int recoveredCases;
     private int numNewCases;
-    private List<Integer> newCases;
+    private int numFormerCases;
 
     // Improvements
     private int medicationFacilities;
@@ -33,7 +33,6 @@ public class City {
         this.travelBanned = travelBanned;
         this.activeCases = activeCases;
         this.recoveredCases = recoveredCases;
-        this.newCases = new ArrayList<>();
     }
 
     /**
@@ -48,7 +47,7 @@ public class City {
      * set Medication Facility Out Of Service
      * 1. decrement facilities by 1
      */
-    public void setMedicationFacilityOutOfService() {
+    public void decreaseMedicationFacility() {
         // TODO
         if(medicationFacilities > 0)
             medicationFacilities--;
@@ -64,11 +63,11 @@ public class City {
         // TODO
         if (increment < 0)
             increaseActiveCases(-increment);
-        else if (activeCases+ increment >= population) {
+        else if (activeCases + increment >= population) {
             activeCases = Math.min(population, activeCases + increment);
             throw new MedicalException(population, activeCases);
         }
-        else activeCases = activeCases+ increment;
+        else activeCases += increment;
     }
 
     /**
@@ -87,10 +86,6 @@ public class City {
         }
     }
 
-    public void addNewCases(int newCasesToAdd){
-        newCases.add(newCasesToAdd);
-    }
-
     /**
      * set banTravel to a value
      * @param val
@@ -104,12 +99,16 @@ public class City {
         this.numNewCases = numNewCases;
     }
 
+    public void setNumFormerCases(int numFormerCases) {
+        this.numFormerCases = numFormerCases;
+    }
+
     public int getNumNewCases() {
         return numNewCases;
     }
 
-    public int getId() {
-        return id;
+    public int getNumFormerCases() {
+        return numFormerCases;
     }
 
     public String getName() {
@@ -136,14 +135,11 @@ public class City {
         return medicationFacilities;
     }
 
-    public boolean isGreaterNewCases(){
-        int newCasesLen = newCases.size();
-        if (newCasesLen >= 2){
-            if(newCases.get(newCasesLen -1)> newCases.get(newCasesLen -2))
-                return true;
-        }
-
-        return false;
+    public boolean isNewCasesIncreasing(){
+        if(numNewCases > numFormerCases)
+            return true;
+        else
+            return false;
     }
 
     @Override

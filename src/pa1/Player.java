@@ -17,7 +17,7 @@ import java.util.Random;
 public class Player {
 
     // Assets
-    private final List<HealthAuthorityStaff> healthAuthorityStaffs = new ArrayList<>();
+    private final List<HealthAuthorityStaff> haStaffs = new ArrayList<>();
     private final List<Containment> containTechniques = new ArrayList<>();
 
     // Attributes
@@ -46,8 +46,7 @@ public class Player {
     public String toString() {
         String toStr = String.format("Player: %s | budget: %d | tourism income: %d | points: %d\n",
                 name, budget, tourismIncome, points);
-        toStr += String.format("City: %s | infectedCases %d | recoveredCases %d | newCases %d | population %d | # of medication facilities %d\n",
-        city.getName(), city.getActiveCases(), city.getRecoveredCases(), city.getNumNewCases(), city.getPopulation(), city.getMedicationFacilities());
+        toStr += city.toString() +"\n";
 
         String contNames = "";
         int protection_level = 0;
@@ -131,7 +130,11 @@ public class Player {
      */
     public boolean hasReadyHAStaff() {
         // TODO
-        return getHAStaffs().stream().anyMatch(HealthAuthorityStaff::isReady);
+        for (HealthAuthorityStaff haStaff: getHAStaffs()) {
+            if(haStaff.isReady())
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -154,8 +157,8 @@ public class Player {
         }
         double increaseFactor = 0.5 * (Constants.MAX_LEVEL - currProtectionLevel) + 0.5 * (Constants.MAX_LEVEL - currVaccinationLevel);
         int newInfectedCases = (int) Math.ceil(increaseFactor * city.getActiveCases() );
+        city.setNumFormerCases(city.getNumNewCases());
         city.setNumNewCases(newInfectedCases);
-        city.addNewCases(newInfectedCases);
         city.increaseActiveCases(newInfectedCases);
     }
 
@@ -179,7 +182,7 @@ public class Player {
                     for (Containment cont:containTechniques) {
                         if (cont instanceof FaceMask) {
                             int index = containTechniques.indexOf(cont);
-                            containTechniques.get(index).halfProtection_level();
+                            halfProtection_level();
                             System.out.println("Disaster: Fake face masks that halves the protection");
                             break;
                         }
@@ -188,16 +191,15 @@ public class Player {
                 case 1:
                     for (Containment cont:containTechniques) {
                         if (cont instanceof Vaccination) {
-                            int index = containTechniques.indexOf(cont);
-                            containTechniques.get(index).halfVaccination_level();
+                            halfVaccination_level();
                             System.out.println("Disaster: Weather/physical changes that halves the vaccination efficiency");
                             break;
                         }
                     }
                     break;
                 case 2:
-                    city.setMedicationFacilityOutOfService();
-                    System.out.println("Disaster: Medication facility is out of service");
+                    city.decreaseMedicationFacility();
+                    System.out.println("Disaster: One medication facility is out of service");
                     break;
             }
         }
@@ -228,10 +230,43 @@ public class Player {
         this.city = city;
     }
 
-    // Trivial getters
+    public void incrementProtection_level(int inLevel, Containment cont ) {
+        if (containTechniques.contains(cont)) {
+            int index = containTechniques.indexOf(cont);
+            int newProtectionLevel =  Math.min(50, cont.getProtection_level() + inLevel);
+            containTechniques.get(index).setProtection_level(newProtectionLevel);
+        }
+    }
 
+    public void halfProtection_level() {
+        for (Containment cont:containTechniques) {
+            if (cont instanceof FaceMask) {
+                int newValue = (int) Math.ceil(cont.getProtection_level() * 0.5f);
+                cont.setProtection_level(newValue);
+            }
+        }
+    }
+
+    public void incrementVaccination_level(int inLevel, Containment cont) {
+        if (containTechniques.contains(cont)) {
+            int index = containTechniques.indexOf(cont);
+            int newVaccLevel =  Math.min(100, cont.getVaccination_level() + inLevel);
+            containTechniques.get(index).setVaccination_level(newVaccLevel);
+        }
+    }
+
+    public void halfVaccination_level() {
+        for (Containment cont:containTechniques) {
+            if (cont instanceof Vaccination) {
+                int newValue = (int) Math.ceil(cont.getVaccination_level() * 0.5f);
+                cont.setVaccination_level(newValue);
+            }
+        }
+    }
+
+    // Trivial getters
     public List<HealthAuthorityStaff> getHAStaffs() {
-        return healthAuthorityStaffs;
+        return haStaffs;
     }
 
     public City getCity() {
@@ -248,10 +283,6 @@ public class Player {
 
     public int getBudget() {
         return budget;
-    }
-
-    public List<HealthAuthorityStaff> getHealthAuthorityStaffs() {
-        return healthAuthorityStaffs;
     }
 
     public int getTourismIncome() {

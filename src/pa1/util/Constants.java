@@ -11,7 +11,7 @@ public class Constants {
     public final static int DEVELOP_VACCINE_COST = 50;
     public final static int UPGRADE_VACCINE_COST = 50;
 
-    //Upgrade percentage
+    //Action's level percentage
     public final static int DEVELOP_VACCINE_Percentage = 50;
     public final static int UPGRADE_VACCINE_Percentage = 50;
 

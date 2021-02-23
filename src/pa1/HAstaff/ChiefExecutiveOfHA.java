@@ -5,9 +5,9 @@ import pa1.Player;
 import pa1.exceptions.BudgetRunoutException;
 import pa1.exceptions.NoEnoughBudgetException;
 
-public class ChiefExecutive extends HealthAuthorityStaff {
+public class ChiefExecutiveOfHA extends HealthAuthorityStaff {
 
-    public ChiefExecutive(int leadership, int medicine, int experience) {
+    public ChiefExecutiveOfHA(int leadership, int medicine, int experience) {
         super(leadership, medicine, experience);
     }
 
@@ -38,7 +38,7 @@ public class ChiefExecutive extends HealthAuthorityStaff {
     @Override
     public String toString() {
         // TODO
-        String toStr = String.format("ChiefExecutive | %s, leadership %d, medicine %d, experience %d", isReady() ? "READY" : "DONE",leadership, medicine, experience);
+        String toStr = String.format("ChiefExecutiveOfHA | %s, leadership %d, medicine %d, experience %d", isReady() ? "READY" : "DONE",leadership, medicine, experience);
         return toStr;
     }
 }
