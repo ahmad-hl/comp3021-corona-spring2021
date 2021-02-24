@@ -183,13 +183,20 @@ public class GameEngine {
 
         try {
             game.gameMap.loadPlayers("players.txt");
-            while (true) {
+
+            boolean isWinning = false;
+            while (!isWinning) {
                 game.processPlayersTurn();
 
-                //add tourism income to budget if travel is not banned
                 for (Player player: game.gameMap.getPlayers()) {
+
+                    //if travel is not banned => add tourism income to budget
                     if(!player.getCity().isTravelBanned())
                         player.increaseBudget(player.getTourismIncome());
+
+                    //Winning condition
+                    if(player.getCity().getActiveCases() == 0 &&  player.getCity().getNumNewCases() ==0)
+                        isWinning = true;
                 }
             }
 

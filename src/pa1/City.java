@@ -55,9 +55,10 @@ public class City {
 
     /**
      * Increases number of cases by the amount specified
-     * throw negative exception if decrease operation leads to negative # doctors
+     * throw medical exception if decrease operation leads to active cases >= population
      *
      * @param increment
+     * @throws MedicalException
      */
     public void increaseActiveCases(int increment) throws MedicalException {
         // TODO
@@ -71,8 +72,7 @@ public class City {
     }
 
     /**
-     * Decrease number of infected cases and increase recovered cases by the amount specified
-     * throw negative exception if decrease operation leads to negative # doctors
+     * Decrease number of active cases and increase recovered cases by the amount specified
      *
      * @param decrement
      */
@@ -80,7 +80,7 @@ public class City {
         // TODO
         if (decrement < 0)
             decreaseActiveCases(-decrement);
-        else {
+        else if (activeCases>0){
             activeCases = Math.max(0, activeCases - decrement);
             recoveredCases = Math.min(population, recoveredCases + decrement);
         }

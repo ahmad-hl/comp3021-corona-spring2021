@@ -27,7 +27,7 @@ public class NoEnoughBudgetException extends Exception {
      */
     @Override
     public String getMessage() {
-        return String.format("need %d cost, have only %f budget",
+        return String.format("need %d cost, have only %d budget",
                 cost, player.getBudget());
     }
 

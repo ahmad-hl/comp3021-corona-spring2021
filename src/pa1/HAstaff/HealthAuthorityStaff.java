@@ -66,6 +66,8 @@ public abstract class HealthAuthorityStaff {
      * 3. If not, throw an exception
      * 4. Subtract the cost from the player's budget
      * 5. Add number of facilities in the city by one
+     * 6. set medication level to 100 if active =0
+     *                         or recovered * 100/ (active + recovered)
      * <p>
      * HINT:
      * @param player
@@ -103,11 +105,7 @@ public abstract class HealthAuthorityStaff {
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment) {
                 int index = player.getContainTechniques().indexOf(cont);
-                if (city.getActiveCases() <= 0)
-                    player.getContainTechniques().get(index).setMedication_level(100);
-                else {
-                    player.getContainTechniques().get(index).setMedication_level((city.getMedicationFacilities() * Constants.MEDICATION_FACILITY_CAPACITY * 100) / city.getRecoveredCases());
-                }
+                player.getContainTechniques().get(index).setMedication_level((city.getRecoveredCases() * 100) / (city.getActiveCases() + city.getRecoveredCases()));
             }
         }
 
