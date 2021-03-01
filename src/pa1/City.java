@@ -54,33 +54,40 @@ public class City {
     }
 
     /**
-     * Increases number of cases by the amount specified
-     * throw medical exception if decrease operation leads to active cases >= population
+     * Increases number of active cases by the amount specified
+     *
+     * 1. check if the increment amount is positive
+     * 1.1. if increase operation leads to active cases >= population
+     *              - limit the upperbound active cases to population
+     *              - throw medical exception
+     * 1.2. otherwise: increase by increment amount
      *
      * @param increment
      * @throws MedicalException
      */
     public void increaseActiveCases(int increment) throws MedicalException {
         // TODO
-        if (increment < 0)
-            increaseActiveCases(-increment);
-        else if (activeCases + increment >= population) {
-            activeCases = Math.min(population, activeCases + increment);
-            throw new MedicalException(population, activeCases);
+        if (increment > 0) {
+            if (activeCases + increment >= population) {
+                activeCases = Math.min(population, activeCases + increment);
+                throw new MedicalException(population, activeCases);
+            } else
+                activeCases += increment;
         }
-        else activeCases += increment;
     }
 
     /**
      * Decrease number of active cases and increase recovered cases by the amount specified
      *
+     * 1. check if the decrement amount is positive
+     *  1.1. decrease the active cases and limit the lowerbound to 0
+     *  1.1. increase the recovered cases and limit the upperbound to population
+     *
      * @param decrement
      */
     public void decreaseActiveCases(int decrement) {
         // TODO
-        if (decrement < 0)
-            decreaseActiveCases(-decrement);
-        else if (activeCases>0){
+        if (decrement > 0){
             activeCases = Math.max(0, activeCases - decrement);
             recoveredCases = Math.min(population, recoveredCases + decrement);
         }

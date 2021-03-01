@@ -11,20 +11,44 @@ public class ChiefExecutiveOfHA extends HealthAuthorityStaff {
         super(leadership, medicine, experience);
     }
 
+    /**
+     * compute bonus
+     * CEO of HA bonus is based on leadership and experience
+     * <p>
+     * HINT:
+     *
+     * @return int
+     */
+
     @Override
     protected int getBonusPoints() {
         return leadership + experience;
     }
 
+    /**
+     * ban travel
+     * 1. Call the super class banTravel
+     * 2. add points according to bonus
+     * <p>
+     * HINT:
+     *
+     */
     @Override
-    public void banTravel(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
+    public void banTravel(Player player, City city) {
         super.banTravel(player, city);
         player.addPoints(getBonusPoints());
     }
 
+    /**
+     * lift travel ban
+     * 1. Call the super class liftTravelBan
+     * 2. add points according to bonus
+     * <p>
+     * HINT:
+     */
     @Override
-    public void leftTravelBan(Player player, City city) {
-        super.leftTravelBan(player, city);
+    public void liftTravelBan(Player player, City city) {
+        super.liftTravelBan(player, city);
         player.addPoints(getBonusPoints());
     }
 

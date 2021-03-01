@@ -92,9 +92,7 @@ public class Player {
      */
     public void increaseBudget(int increment) {
         // TODO
-        if (increment < 0)
-            increaseBudget(-increment);
-        else
+        if (increment > 0)
             budget += increment;
     }
 
@@ -108,10 +106,8 @@ public class Player {
      */
     public void addPoints(int increment) {
         // TODO
-        if (increment < 0)
-           addPoints(-increment);
-        else
-            points += increment;
+        if (increment >= 0)
+           points += increment;
     }
 
     /**

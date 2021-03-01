@@ -70,7 +70,7 @@ class GameEngine{
 - -selectHAStaff(player: Player): HealthAuthorityStaff
 - -selectAndPerformAction(player: Player, haStaff: HealthAuthorityStaff, city: City) throws BudgetRunoutException, NoEnoughBudgetException
 - -processPlayerCommand(command: int, player: Player, haStaff: HealthAuthorityStaff, city: City) throws NoEnoughBudgetException, BudgetRunoutException
-+ +announceWinner(): Player
++ +announceWinner()
 }
 
 class GameMap{
@@ -92,8 +92,8 @@ abstract class HealthAuthorityStaff{
 + +developMedicationFacility(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +buildMasksFactory(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +upgradeFMaskQuality(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
-+ +banTravel(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
-+ +leftTravelBan(player: Player, city: City)
++ +banTravel(player: Player, city: City)
++ +liftTravelBan(player: Player, city: City)
 + +developVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +upgradeVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
 + +toString() : String
@@ -102,7 +102,7 @@ abstract class HealthAuthorityStaff{
 class ChiefExecutive{
 # #getBonusPoints(): int
 + +banTravel(player: Player, city: City)
-+ +leftTravelBan(player: Player, city: City)
++ +liftTravelBan(player: Player, city: City)
 }
 class HealthMinister{
 # #getBonusPoints(): int

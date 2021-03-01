@@ -263,27 +263,19 @@ public abstract class HealthAuthorityStaff {
 
     /**
      * Ban Travel
-     * 1. update city's travelBanned to true
+     * 1. set city's travelBanned to true
+     * 2. if doesn't, add Isolation to player containment techniques
+     * 3. set initial protection level for 'isolation' containment tech
      * <p>
      * HINT:
      * @param player
      * @param city
-     * @throws NoEnoughBudgetException
-     * @throws BudgetRunoutException
      */
-    public void banTravel(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
+    public void banTravel(Player player, City city) {
         // TODO
-        if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
-            throw new BudgetRunoutException(player);
-
-        boolean cantBanTravel = (player.getBudget() - player.getTourismIncome()) < 0;
-
-        if (cantBanTravel) throw new NoEnoughBudgetException(player, player.getTourismIncome());
-
-        //update the protection level
-        player.decreaseBudget(player.getTourismIncome());
         city.setTravelBanned(true);
 
+        //update the protection level
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Isolation){
@@ -306,17 +298,17 @@ public abstract class HealthAuthorityStaff {
 
 
     /**
-     * Left the travel ban
-     * 1. update city's travelBanned to false
+     * Lift the travel ban
+     * 1. set city's travelBanned to false
+     * 2. if exists, remove Isolation to player containment techniques
      * <p>
      * HINT:
      * @param player
      * @param city
      */
-    public void leftTravelBan(Player player, City city) {
+    public void liftTravelBan(Player player, City city) {
         // TODO
         //update the protection level
-        player.increaseBudget(player.getTourismIncome());
         city.setTravelBanned(false);
 
         for (Containment cont:player.getContainTechniques()) {

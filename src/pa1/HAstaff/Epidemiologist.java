@@ -12,23 +12,61 @@ public class Epidemiologist extends HealthAuthorityStaff {
         super(leadership, medicine, experience);
     }
 
+    /**
+     * compute bonus
+     * Epidemiologist bonus is based on medicine knowledge and experience
+     * <p>
+     * HINT:
+     *
+     * @return int
+     */
     @Override
     protected int getBonusPoints() {
         return medicine + experience;
     }
 
+    /**
+     * develop a vaccine
+     * 1. Call the super class developVaccine
+     * 2. add points according to bonus
+     * <p>
+     * HINT:
+     *
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
+     */
     @Override
     public void developVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.developVaccine(player, city);
         player.addPoints(getBonusPoints());
     }
 
+    /**
+     * upgrade a vaccine
+     * 1. Call the super class upgradeVaccine
+     * 2. add points according to bonus
+     * <p>
+     * HINT:
+     *
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
+     */
     @Override
     public void upgradeVaccine(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.upgradeVaccine(player, city);
         player.addPoints(getBonusPoints());
     }
 
+    /**
+     * upgrade the quality of the face masks
+     * 1. Call the super class upgradeFMaskQuality
+     * 2. add points according to bonus
+     * <p>
+     * HINT:
+     *
+     * @throws NoEnoughBudgetException
+     * @throws BudgetRunoutException
+     */
     @Override
     public void upgradeFMaskQuality(Player player, City city) throws NoEnoughBudgetException, BudgetRunoutException {
         super.upgradeFMaskQuality(player, city);

@@ -19,11 +19,15 @@ public class GameEngine {
     private Scanner userInputScanner = new Scanner(System.in);
 
     /**
-     * Get the the only player with at least one city
+     * The player wins the game
+     * When the city under a player’s control has 0 active cases and 0 new infected cases.
+     * If both players have 0 active cases and 0 new infected:
+     *   - decides the winner based on the one with greater points.
+     *
      *
      * @return
      */
-    public Player announceWinner( ) {
+    public void announceWinner( ) {
         // TODO
         Player firstPlayer = gameMap.getPlayers().get(0);
         Player secondPlayer = gameMap.getPlayers().get(1);
@@ -51,10 +55,6 @@ public class GameEngine {
                     secondPlayer.getName(), secondPlayer.getPoints() );
         else
             System.out.printf("Player %s has %d infected Cases, %d new cases, %d points, wins the game\n", winner.getName(),winner.getCity().getActiveCases(), winner.getCity().getNumNewCases(), winner.getPoints());
-
-
-
-        return null;
     }
 
     private int getSelection(int min, int max, String name) {
@@ -170,7 +170,7 @@ public class GameEngine {
                 healthAuthorityStaff.upgradeVaccine(player, city);
                 break;
             case 7:
-                healthAuthorityStaff.leftTravelBan(player, city);
+                healthAuthorityStaff.liftTravelBan(player, city);
                 break;
             default:
                 break;
@@ -184,6 +184,7 @@ public class GameEngine {
         try {
             game.gameMap.loadPlayers("players.txt");
 
+            //Run until occurrence of winning conditions
             boolean isWinning = false;
             while (!isWinning) {
                 game.processPlayersTurn();
