@@ -67,7 +67,7 @@ public class Player {
             toStr += String.format("\t %s \n", healthAuthorityStaff);
         }
 
-        toStr += String.format("Containments: %s | protection level: %d | vaccination level: %d | medication level: %d ",
+        toStr += String.format("Containment : %s | protection level: %d | vaccination level: %d | medication level: %d ",
                 contNames, protection_level, vaccination_level, medication_level);
 
         return toStr;

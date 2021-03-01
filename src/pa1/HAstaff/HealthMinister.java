@@ -5,11 +5,7 @@ import pa1.Player;
 import pa1.exceptions.BudgetRunoutException;
 import pa1.exceptions.NoEnoughBudgetException;
 
-/**
- * An abstract class that represents a minister in the game.
- * All actions in the game are done through ministers.
- * Therefore this class will contain the bulk of your implementation of the game.
- */
+
 public class HealthMinister extends HealthAuthorityStaff {
 
     public HealthMinister(int leadership, int medicine, int experience) {
@@ -18,7 +14,7 @@ public class HealthMinister extends HealthAuthorityStaff {
 
     /**
      * compute bonus
-     * HealthMinister bonus is based on leadership, medicine knowledge and experience
+     * HealthMinister bonus is based on  summation of leadership, medicine knowledge and experience
      * <p>
      * HINT:
      *

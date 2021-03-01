@@ -13,7 +13,7 @@ public class ChiefExecutiveOfHA extends HealthAuthorityStaff {
 
     /**
      * compute bonus
-     * CEO of HA bonus is based on leadership and experience
+     * CEO of HA bonus is based on  summation of leadership and experience
      * <p>
      * HINT:
      *

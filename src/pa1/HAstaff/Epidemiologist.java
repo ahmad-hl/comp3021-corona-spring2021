@@ -14,7 +14,7 @@ public class Epidemiologist extends HealthAuthorityStaff {
 
     /**
      * compute bonus
-     * Epidemiologist bonus is based on medicine knowledge and experience
+     * Epidemiologist bonus is based on summation of medicine, knowledge and experience
      * <p>
      * HINT:
      *

@@ -9,9 +9,9 @@ import pa1.exceptions.NoEnoughBudgetException;
 import pa1.util.Constants;
 
 /**
- * An abstract class that represents a minister in the game.
- * All actions in the game are done through ministers.
- * Therefore this class will contain the bulk of your implementation of the game.
+ * An abstract class that represents a health authority staff (haStaffs) in the game.
+ * All actions in the game are done through haStaffs.
+ * Therefore this class will contain the implementations of the actions to take in order to contain COVID in the game.
  */
 public abstract class HealthAuthorityStaff {
 
@@ -62,14 +62,14 @@ public abstract class HealthAuthorityStaff {
     /**
      * Develop a medication facility in the city
      * 1. Get the cost of developing a facility
-     * 2. Check whether player has enough budget
-     * 3. If not, throw an exception
-     * 4. Subtract the cost from the player's budget
-     * 5. Add number of facilities in the city by one
-     * 6. set medication level to 100 if active =0
-     *                         or recovered * 100/ (active + recovered)
+     * 2. if the player doesn't enough budget, throw an exception
+     *    otherwise:
+     * 3. Subtract the cost from the player's budget
+     * 4. Increment the city's medication facilities by one
+     * 5. set medication level to: recovered * 100/ (active + recovered)
      * <p>
      * HINT:
+     *  define a class of constant final variable to include the costs, percentages, ..etc
      * @param player
      * @param city
      * @throws NoEnoughBudgetException
@@ -80,6 +80,7 @@ public abstract class HealthAuthorityStaff {
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
+        //update the player's status if can afford the action
         int facilityCost = Constants.MEDICATION_FACILITY_COST;
         boolean cantDevelopFacility = facilityCost > player.getBudget();
         if (cantDevelopFacility) throw new NoEnoughBudgetException(player, facilityCost);
@@ -87,7 +88,6 @@ public abstract class HealthAuthorityStaff {
         city.addMedicationFacilities();
         city.decreaseActiveCases(Constants.MEDICATION_FACILITY_CAPACITY );
 
-        //update the medication level
         boolean alreadyExists = false;
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Treatment){
@@ -129,6 +129,7 @@ public abstract class HealthAuthorityStaff {
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
+        //update the player's status if can afford the action
         int maskFactoryCost = Constants.BUILD_MASK_FACTORY_COST;
         boolean cantBuildMedFactory = maskFactoryCost > player.getBudget();
         if (cantBuildMedFactory) throw new NoEnoughBudgetException(player, maskFactoryCost);
@@ -172,11 +173,13 @@ public abstract class HealthAuthorityStaff {
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
+        //update the player's status if can afford the action
         int upgradeMaskQualityCost = Constants.UPGRADE_MASK_QUALITY_COST;
         boolean cantUpgradeMaskQuality = upgradeMaskQualityCost > player.getBudget();
         if (cantUpgradeMaskQuality) throw new NoEnoughBudgetException(player, upgradeMaskQualityCost);
         player.decreaseBudget(upgradeMaskQualityCost);
 
+        //update protection level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof FaceMask){
                 player.incrementProtection_level(Constants.UPGRADE_MASK_PROTECTION_Percentage,cont);
@@ -202,6 +205,7 @@ public abstract class HealthAuthorityStaff {
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
+        //update the player's status if can afford the action
         int developVaccineCost = Constants.DEVELOP_VACCINE_COST;
         boolean cantDevelopVaccine = developVaccineCost > player.getBudget();
 
@@ -248,6 +252,7 @@ public abstract class HealthAuthorityStaff {
         if (player.getBudget()<Constants.MIN_ALLOWED_BUDGET)
             throw new BudgetRunoutException(player);
 
+        //update the player's status if can afford the action
         int upgradeVaccineCost = Constants.UPGRADE_VACCINE_COST;
         boolean cantUpgradeVaccine = upgradeVaccineCost > player.getBudget();
         if (cantUpgradeVaccine) throw new NoEnoughBudgetException(player, upgradeVaccineCost);
@@ -300,7 +305,7 @@ public abstract class HealthAuthorityStaff {
     /**
      * Lift the travel ban
      * 1. set city's travelBanned to false
-     * 2. if exists, remove Isolation to player containment techniques
+     * 2. if exists, remove Isolation from player's containment techniques
      * <p>
      * HINT:
      * @param player
