@@ -1,6 +1,7 @@
 ## comp3021 Corona Spring2021
 Implementing Java Polymorphism, Inheritance, exception raising and handling.
-We aim to develop a system as a game to fight Coronavirus.
+We aim to develop a system as a game to fight Coronavirus, COVID 19'.
+![alt text](covid.png)
 
 ### Class Diagram of the main packages
 The system contains primarly three packages: containment, roles and exception. 
