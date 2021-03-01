@@ -139,7 +139,7 @@ public class GameEngine {
         System.out.println("\t[ 4]\tBan Travel");
         System.out.println("\t[ 5]\tDevelop Vaccine");
         System.out.println("\t[ 6]\tUpgrade the Vaccine");
-        System.out.println("\t[ 7]\tLeft Travel Ban");
+        System.out.println("\t[ 7]\tLift Travel Ban");
 
         while (true) {
             int command = getSelection(1, 7, "action");

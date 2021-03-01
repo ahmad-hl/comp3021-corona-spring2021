@@ -12,6 +12,16 @@ The util package has utility classes.
 #### Exceptions raised and handled
 ![alt text](exceptions.png)
 
+##Game input
+The game takes as input the file [players.txt](players.txt). The txt file specifies two players' info.
+The player's info, the city, and the roles as follows:
+line 3: Player's name, budget, tourism income, initial points
+line 4: city ID, city name, population, active cases, recovered cases
+line 5,6,7 specify the roles: HealthMinister, ChiefExecutive, and Epidemiologist.
+Each line specifies the rating (1..5) of each role as leadership, medicine, and experience in that role.
+
+Line 9,10,11,12 specify the input information for the second player.
+
 
 ## How does the game end?
 There are 3 winning and losing conditions that end the game:
