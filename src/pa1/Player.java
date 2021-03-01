@@ -74,7 +74,7 @@ public class Player {
     }
 
     /**
-     * Decreases the player's budget
+     * Decreases the player's budget by amount
      * Cap the value to 0.
      *
      * @param decrement
@@ -85,8 +85,7 @@ public class Player {
     }
 
     /**
-     * Increase the player's budget
-     * Cap the value to 0.
+     * Increase the player's budget by amount
      *
      * @param increment
      */
@@ -100,19 +99,17 @@ public class Player {
 
     /**
      * Adds player's points by specified increment.
-     * If the increment is negative, throw NegativeValException
      *
      * @param increment
      */
     public void addPoints(int increment) {
         // TODO
-        if (increment >= 0)
+        if (increment > 0)
            points += increment;
     }
 
     /**
-     * Decreases the player's points
-     * Cap the value to 0.
+     * Decreases the player's points by specified decrement.
      *
      * @param decrement
      */
@@ -160,8 +157,8 @@ public class Player {
 
     /**
      * Unpredicted disasters at the end of turn.
-     * There are two types of disasters, that affect both protection level, vaccination_level, and medical level.
-     * A disaster happens when disasterOccured <= 0.2, it halves the level.
+     * There are three types of disasters, that affect both protection level, vaccination_level, and medical level.
+     * A disaster happens when disasterOccured <= 0.4, it halves the level.
      * Otherwise the level is left unchanged
      * <p>
      * disasterType [0: Fake face masks, 1: drop vaccination efficiency, 3: destruction of medication facility]
@@ -177,7 +174,6 @@ public class Player {
                 case 0:
                     for (Containment cont:containTechniques) {
                         if (cont instanceof FaceMask) {
-                            int index = containTechniques.indexOf(cont);
                             halfProtection_level();
                             System.out.println("Disaster: Fake face masks that halves the protection");
                             break;
@@ -226,14 +222,24 @@ public class Player {
         this.city = city;
     }
 
+    /**
+     * Increment protection level.
+     * if cont in the containment techniques, increase the protection level by inLevel
+     *
+     * @param inLevel
+     * @param cont
+     */
     public void incrementProtection_level(int inLevel, Containment cont ) {
         if (containTechniques.contains(cont)) {
             int index = containTechniques.indexOf(cont);
-            int newProtectionLevel =  Math.min(50, cont.getProtection_level() + inLevel);
+            int newProtectionLevel =  Math.min(100, cont.getProtection_level() + inLevel);
             containTechniques.get(index).setProtection_level(newProtectionLevel);
         }
     }
 
+    /**
+     * halve the protection level.
+     */
     public void halfProtection_level() {
         for (Containment cont:containTechniques) {
             if (cont instanceof FaceMask) {
@@ -243,6 +249,12 @@ public class Player {
         }
     }
 
+    /**
+     * Increment vaccination level.
+     * if cont in the containment techniques, increase the vaccination level by inLevel
+     * @param inLevel
+     * @param cont
+     */
     public void incrementVaccination_level(int inLevel, Containment cont) {
         if (containTechniques.contains(cont)) {
             int index = containTechniques.indexOf(cont);
@@ -251,6 +263,9 @@ public class Player {
         }
     }
 
+    /**
+     * halve the vaccination level.
+     */
     public void halfVaccination_level() {
         for (Containment cont:containTechniques) {
             if (cont instanceof Vaccination) {
