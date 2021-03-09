@@ -7,6 +7,14 @@ import pa1.exceptions.NoEnoughBudgetException;
 
 public class ChiefExecutiveOfHA extends HealthAuthorityStaff {
 
+    /**
+     * Initialize HealthMinister
+     * call the super class constructor
+     *
+     * @param leadership
+     * @param medicine
+     * @param experience
+     */
     public ChiefExecutiveOfHA(int leadership, int medicine, int experience) {
         super(leadership, medicine, experience);
     }

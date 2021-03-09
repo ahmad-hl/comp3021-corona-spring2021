@@ -8,6 +8,14 @@ import pa1.exceptions.NoEnoughBudgetException;
 
 public class Epidemiologist extends HealthAuthorityStaff {
 
+    /**
+     * Initialize Epidemiologist
+     *call the super class constructor
+     *
+     * @param leadership
+     * @param medicine
+     * @param experience
+     */
     public Epidemiologist(int leadership, int medicine, int experience) {
         super(leadership, medicine, experience);
     }

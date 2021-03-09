@@ -26,6 +26,16 @@ public class City {
     // Improvements
     private int medicationFacilities;
 
+    /**
+     *  Initializes member variables.
+     *
+     * @param id
+     * @param name
+     * @param population
+     * @param travelBanned
+     * @param activeCases
+     * @param recoveredCases
+     */
     public City(int id, String name, int population,boolean travelBanned, int activeCases, int recoveredCases) {
         this.id = id;
         this.name = name;

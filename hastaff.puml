@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class HealthAuthorityStaff{
+# #leadership: int
+# #medicine: int
+# #experience: int
+- -isReady: bool
++ +HealthAuthorityStaff(leadership: int, medicine: int, exper: int)
++ +isReady(): bool
++ +beginTurn()
++ +endTurn()
+# #getBonusPoints(): int
++ +developMedicationFacility(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +buildMasksFactory(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +upgradeFMaskQuality(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +banTravel(player: Player, city: City)
++ +liftTravelBan(player: Player, city: City)
++ +developVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +upgradeVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +toString() : String
+}
+
+class ChiefExecutive{
+# #getBonusPoints(): int
++ +banTravel(player: Player, city: City)
++ +liftTravelBan(player: Player, city: City)
+}
+class HealthMinister{
+# #getBonusPoints(): int
++ +developMedicationFacility(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +buildMasksFactory(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +toString() : String
+}
+class Epidemiologist{
+# #getBonusPoints(): int
++ +upgradeFMaskQuality(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +developVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +upgradeVaccine(player: Player, city: City) throws NoEnoughBudgetException, BudgetRunoutException
++ +toString() : String
+}
+HealthAuthorityStaff <|-- ChiefExecutive
+HealthAuthorityStaff <|-- HealthMinister
+HealthAuthorityStaff <|-- Epidemiologist
+
+@enduml

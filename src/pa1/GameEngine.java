@@ -23,9 +23,6 @@ public class GameEngine {
      * When the city under a player’s control has 0 active cases and 0 new infected cases.
      * If both players have 0 active cases and 0 new infected:
      *   - decides the winner based on the one with greater points.
-     *
-     *
-     * @return
      */
     public void announceWinner( ) {
         // TODO

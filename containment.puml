@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Containment{
+# #protection_level
+# #medication_level
+# #vaccination_level
++ +getProtection_level(): int
++ +getMedication_level(): int
++ +getVaccination_level(): int
++ +setProtection_level(level: int)
++ +setMedication_level(level: int)
++ +setVaccination_level(level: int)
++ +toString() : String
+}
+
+class FaceMask{
++ +FaceMask()
++ +getProtection_level(): int
+}
+class Isolation{
++ +Isolation()
++ +getProtection_level(): int
+}
+class Treatment{
++ +Treatment()
++ +getMedication_level(): int
+}
+class Vaccination{
++ +Vaccination()
++ +getVaccination_level(): int
+}
+Containment <|-- FaceMask
+Containment <|-- Isolation
+Containment <|-- Treatment
+Containment <|-- Vaccination
+
+
+@enduml

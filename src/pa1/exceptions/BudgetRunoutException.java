@@ -18,9 +18,8 @@ public class BudgetRunoutException extends Exception {
     }
 
     /**
-     * Constructs an error message in the form:
-     * "need (%d cost), have (%d budget)"
-     * @return
+     * @return an error message in the form:
+     * "run out of budget %d budget"
      */
     @Override
     public String getMessage() {

@@ -10,6 +10,9 @@ public abstract class Containment {
     protected int medication_level;
     protected int vaccination_level;
 
+    /**
+     * Initialize the levels to be 0
+     */
     public Containment() {
         this.protection_level = 0;
         this.medication_level = 0;
