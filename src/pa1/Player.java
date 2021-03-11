@@ -135,8 +135,11 @@ public class Player {
      *
      * 1. get current protection and vaccination level
      * 2. compute: IF = .5*(100-protection level) + .5*(100-vaccination level)
-     * 3. compute: new infected cases = IF * infectedCases * population
-     * 4. add new cases to city's total infected cases
+     * 3. define a factor called spreadRate  = 1
+     * 4.  if there is no protection at all:
+     *      set spreadRate to 3, i.e., on average an active patient can pass the virus to 3 more people)
+     * 5. compute: new infected cases = spreadRate * IF * infectedCases * population
+     * 6. add new cases to city's total infected cases
      * @throws MedicalException
      */
     public void computeNewInfectedCases() throws MedicalException {
@@ -148,8 +151,13 @@ public class Player {
             else if (contTech instanceof Vaccination)
                 currVaccinationLevel = contTech.getVaccination_level();
         }
-        double increaseFactor = 0.5 * (Constants.MAX_LEVEL - currProtectionLevel) + 0.5 * (Constants.MAX_LEVEL - currVaccinationLevel);
-        int newInfectedCases = (int) Math.ceil(increaseFactor * city.getActiveCases() );
+        double increaseFactor = 0.5 * (Constants.MAX_LEVEL - currProtectionLevel)/Constants.MAX_LEVEL + 0.5 * (Constants.MAX_LEVEL - currVaccinationLevel)/Constants.MAX_LEVEL;
+        //If there is no protection measures were applied, set spread rate to 3
+        int spreadRate= 1;
+        if (increaseFactor == 1)
+            spreadRate = 3;
+
+        int newInfectedCases =(int) Math.ceil(spreadRate * increaseFactor * city.getActiveCases() );
         city.setNumFormerCases(city.getNumNewCases());
         city.setNumNewCases(newInfectedCases);
         city.increaseActiveCases(newInfectedCases);

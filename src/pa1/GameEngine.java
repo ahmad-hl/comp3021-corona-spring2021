@@ -72,7 +72,7 @@ public class GameEngine {
     private void processPlayersTurn() throws MedicalException, BudgetRunoutException, NoEnoughBudgetException {
         turns++;
         for (Player player :  gameMap.getPlayers()) {
-
+            System.out.printf("\n *********( TURN: %d )*************",turns);
             for (HealthAuthorityStaff haStaff: player.getHAStaffs()) {
                 haStaff.beginTurn();
             }
@@ -94,6 +94,7 @@ public class GameEngine {
                 healthAuthorityStaff.endTurn();
             }
 
+            //Generate random disasters, then compute new infected cases & update total cases
             //Generate random disasters, then compute new infected cases & update total cases
             player.generateUnexpectedDistasters();
 
@@ -185,9 +186,7 @@ public class GameEngine {
             boolean isWinning = false;
             while (!isWinning) {
                 game.processPlayersTurn();
-
                 for (Player player: game.gameMap.getPlayers()) {
-
                     //if travel is not banned => add tourism income to budget
                     if(!player.getCity().isTravelBanned())
                         player.increaseBudget(player.getTourismIncome());
@@ -197,7 +196,6 @@ public class GameEngine {
                         isWinning = true;
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (MedicalException e) {

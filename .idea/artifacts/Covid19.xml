@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Covid19">
+    <output-path>$PROJECT_DIR$/out/artifacts/Covid19</output-path>
+    <root id="archive" name="comp3021-corona-spring2021.jar">
+      <element id="module-output" name="comp3021-corona-spring2021" />
+    </root>
+  </artifact>
+</component>

@@ -313,14 +313,16 @@ public abstract class HealthAuthorityStaff {
      */
     public void liftTravelBan(Player player, City city) {
         // TODO
-        //update the protection level
+        Isolation isoToBeRemoved=null;
         city.setTravelBanned(false);
-
+        //update the protection level
         for (Containment cont:player.getContainTechniques()) {
             if (cont instanceof Isolation){
-                player.removeContainmentTech(cont);
+                isoToBeRemoved=(Isolation)cont;
             }
         }
+        if (isoToBeRemoved!=null){player.removeContainmentTech(isoToBeRemoved);}
+
     }
 
     /**
