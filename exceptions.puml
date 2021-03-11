@@ -10,15 +10,19 @@ class BudgetRunoutException{
 + +getMessage(): String
 + +toString(): String
 }
+
 class MedicalException{
 - -population: int
 - -activeCases: int
++ +MedicalException(population: int, activeCases:int)
 + +getMessage(): String
 + +toString(): String
 }
+
 class NoEnoughBudgetException{
 - -player: Player
 - -cost: int
++ +NoEnoughBudgetException(player:Player, cost:int )
 + +getMessage(): String
 + +toString(): String
 }
